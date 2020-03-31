@@ -1,7 +1,7 @@
 # Личный проект «Киноман» [![Build status][travis-image]][travis-url]
 
 * Студент: [Ivan Krivilev](https://up.htmlacademy.ru/ecmascript/11/user/1316231).
-* Наставник: `Неизвестно`.
+* Наставник: [Иван Патрицкий](https://htmlacademy.ru/profile/id1218325).
 
 ---
 
