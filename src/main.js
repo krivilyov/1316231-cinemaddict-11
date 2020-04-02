@@ -125,7 +125,7 @@ for (let i = 0; i < EXTRA_FILMS_SECTION_COUNT; i++) {
 }
 
 const siteExtraFilmsListWrapElements = document.querySelectorAll(`.films-list--extra`);
-if(siteExtraFilmsListWrapElements.length) {
+if (siteExtraFilmsListWrapElements.length) {
   for (let i = 0; i < siteExtraFilmsListWrapElements.length; i++) {
 
     for (let j = 0; j < EXTRA_FILMS_COUNT; j++) {
