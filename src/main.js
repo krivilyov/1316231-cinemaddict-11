@@ -97,25 +97,25 @@ const createStatisticCounterTemplate = () => {
   );
 };
 
-const render = (container, template, place = 'beforeend') => {
+const render = (container, template, place = `beforeend`) => {
   container.insertAdjacentHTML(place, template);
 };
 
-const siteHeaderElement = document.querySelector('.header');
+const siteHeaderElement = document.querySelector(`.header`);
 render(siteHeaderElement, createUserProfileTemplate());
 
-const siteMainElement = document.querySelector('.main');
+const siteMainElement = document.querySelector(`.main`);
 render(siteMainElement, createNavigationMenuTemplate());
 render(siteMainElement, createSortMenuTemplate());
 render(siteMainElement, createFilmsMainWrapTemplate());
 
-const siteFilmsWrapElement = document.querySelector('.films');
+const siteFilmsWrapElement = document.querySelector(`.films`);
 render(siteFilmsWrapElement, createAllFilmsWrapTemplate());
 
-const siteAllFilmsListWrapElement = document.querySelector('.films-list');
+const siteAllFilmsListWrapElement = document.querySelector(`.films-list`);
 render(siteAllFilmsListWrapElement, createLoadMoreButtonTemplate());
 
-const siteAllFilmsListContainerElement = siteAllFilmsListWrapElement.querySelector('.films-list__container');
+const siteAllFilmsListContainerElement = siteAllFilmsListWrapElement.querySelector(`.films-list__container`);
 for (let i = 0; i < FILMS_COUNT; i++) {
   render(siteAllFilmsListContainerElement, createFilmTemplate());
 }
@@ -124,17 +124,17 @@ for (let i = 0; i < EXTRA_FILMS_SECTION_COUNT; i++) {
   render(siteFilmsWrapElement, createExtraFilmsWrapTemplate());
 }
 
-const siteExtraFilmsListWrapElements = document.querySelectorAll('.films-list--extra');
+const siteExtraFilmsListWrapElements = document.querySelectorAll(`.films-list--extra`);
 if(siteExtraFilmsListWrapElements.length) {
   for (let i = 0; i < siteExtraFilmsListWrapElements.length; i++) {
 
     for (let j = 0; j < EXTRA_FILMS_COUNT; j++) {
-      let siteExtraFilmsWrapElement = siteExtraFilmsListWrapElements[i].querySelector('.films-list__container');
+      let siteExtraFilmsWrapElement = siteExtraFilmsListWrapElements[i].querySelector(`.films-list__container`);
       render(siteExtraFilmsWrapElement, createFilmTemplate());
     }
 
   }
 }
 
-const siteFooterStatisticElement = document.querySelector('.footer__statistics');
+const siteFooterStatisticElement = document.querySelector(`.footer__statistics`);
 render(siteFooterStatisticElement, createStatisticCounterTemplate());
