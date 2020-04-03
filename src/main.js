@@ -266,6 +266,6 @@ const siteActiveFilmDetailElementArr = document.querySelectorAll(`.film-card__po
 const siteFooterElement = document.querySelector(`.footer`);
 if (siteActiveFilmDetailElementArr.length) {
   siteActiveFilmDetailElementArr.forEach(function (img) {
-    img.addEventListener('click', () => render(siteFooterElement, createFilmDetailTemplate(), `afterend`));
+    img.addEventListener(`click`, () => render(siteFooterElement, createFilmDetailTemplate(), `afterend`));
   });
 }
