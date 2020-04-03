@@ -261,3 +261,11 @@ if (siteExtraFilmsListWrapElements.length) {
 
 const siteFooterStatisticElement = document.querySelector(`.footer__statistics`);
 render(siteFooterStatisticElement, createStatisticCounterTemplate());
+
+const siteActiveFilmDetailElementArr = document.querySelectorAll(`.film-card__poster`);
+const siteFooterElement = document.querySelector(`.footer`);
+if (siteActiveFilmDetailElementArr.length) {
+  siteActiveFilmDetailElementArr.forEach(function (img) {
+    img.addEventListener('click', () => render(siteFooterElement, createFilmDetailTemplate(), `afterend`));
+  });
+}
