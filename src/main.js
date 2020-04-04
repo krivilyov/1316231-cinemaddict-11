@@ -265,7 +265,7 @@ render(siteFooterStatisticElement, createStatisticCounterTemplate());
 const siteActiveFilmDetailElements = document.querySelectorAll(`.film-card__poster`);
 const siteFooterElement = document.querySelector(`.footer`);
 if (siteActiveFilmDetailElements.length) {
-  siteActiveFilmDetailElements.forEach(function (img) {
+  siteActiveFilmDetailElements.forEach((img) => {
     img.addEventListener(`click`, () => render(siteFooterElement, createFilmDetailTemplate(), `afterend`));
   });
 }
