@@ -1,22 +1,25 @@
 const maxNumber = Math.pow(10, 1000);
-const userProfiles = [
-  {name: `novice`, min: 1, max: 10},
-  {name: `fan`, min: 11, max: 20},
-  {name: `movie buff`, min: 21, max: maxNumber},
-];
+const userProfile = {
+  statuses: [
+    {name: `novice`, min: 1, max: 10},
+    {name: `fan`, min: 11, max: 20},
+    {name: `movie buff`, min: 21, max: maxNumber},
+  ],
+  currentStatus: ``,
+};
 
 const currentUserProfile = () => {
   const quantityViewedFilms = Math.floor(Math.random() * 100);
 
-  let result = false;
+  if (userProfile.statuses && userProfile.statuses.length > 0) {
+    userProfile.statuses.forEach((statusParams) => {
+      if (quantityViewedFilms >= statusParams.min && quantityViewedFilms <= statusParams.max) {
+        userProfile.currentStatus = statusParams.name;
+      }
+    });
+  }
 
-  userProfiles.map((profilParams) => {
-    if (quantityViewedFilms >= profilParams.min && quantityViewedFilms <= profilParams.max) {
-      result = profilParams.name;
-    }
-  });
-
-  return result;
+  return userProfile;
 };
 
 export {currentUserProfile};
