@@ -8,9 +8,9 @@ const statuses = [
 
 const createUserProfile = () => {
   const quantityViewedFilms = Math.floor(Math.random() * 100);
-  let userProfile = [
-    {rating: ``},
-  ];
+  let userProfile = {
+    rating: ``,
+  };
 
   if (statuses && statuses.length > 0) {
     statuses.forEach((statusParams) => {
