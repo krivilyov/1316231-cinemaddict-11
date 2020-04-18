@@ -5,4 +5,11 @@ const USER_STATUSES = [
   {name: `movie buff`, value: 21},
 ];
 
-export {USER_STATUSES};
+const FILTERS_NAME = [
+  {id: `all`, name: `All movies`},
+  {id: `watchlist`, name: `Watchlist`},
+  {id: `history`, name: `History`},
+  {id: `favorites`, name: `Favorites`},
+];
+
+export {USER_STATUSES, FILTERS_NAME};

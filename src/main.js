@@ -3,7 +3,7 @@ const EXTRA_FILMS_SECTION_COUNT = 2;
 const EXTRA_FILMS_COUNT = 2;
 
 import {createUserProfileTemplate} from "./components/user-profile.js";
-import {createNavigationMenuTemplate} from "./components/navigation-menu.js";
+import {createFilterTemplate} from "./components/navigation-menu.js";
 import {createSortMenuTemplate} from "./components/sort-menu.js";
 import {createFilmsMainWrapTemplate} from "./components/films-main-wrap.js";
 import {createAllFilmsWrapTemplate} from "./components/all-films-wrap.js";
@@ -13,6 +13,7 @@ import {createExtraFilmsWrapTemplate} from "./components/extra-films-wrap.js";
 import {createStatisticCounterTemplate} from "./components/statistic-counter.js";
 import {createFilmDetailTemplate} from "./components/film-detail.js";
 import {generateUserProfile} from "./mock/user-profile.js";
+import {generateFilters} from "./mock/filter.js";
 
 const render = (container, template, place = `beforeend`) => {
   container.insertAdjacentHTML(place, template);
@@ -23,7 +24,8 @@ const userProfile = generateUserProfile();
 render(siteHeaderElement, createUserProfileTemplate(userProfile));
 
 const siteMainElement = document.querySelector(`.main`);
-render(siteMainElement, createNavigationMenuTemplate());
+const filters = generateFilters();
+render(siteMainElement, createFilterTemplate(filters));
 render(siteMainElement, createSortMenuTemplate());
 render(siteMainElement, createFilmsMainWrapTemplate());
 
