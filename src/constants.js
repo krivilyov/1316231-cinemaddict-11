@@ -5,7 +5,7 @@ const USER_STATUSES = [
   {name: `movie buff`, value: 21},
 ];
 
-const FILTERS_NAME = [
+const FILTER_NAMES = [
   {id: `all`, name: `All movies`},
   {id: `watchlist`, name: `Watchlist`},
   {id: `history`, name: `History`},
@@ -22,7 +22,7 @@ const PREVIEW_IMAGES = [
   `./images/posters/the-man-with-the-golden-arm.jpg`,
 ];
 
-const FILMS_NAME = [
+const FILM_NAMES = [
   `Made for each other`,
   `Popeye Meets Sinbad`,
   `Sagebrush Trail`,
@@ -83,4 +83,4 @@ const GENRES = [
   `Mystery`,
 ];
 
-export {USER_STATUSES, FILTERS_NAME, PREVIEW_IMAGES, FILMS_NAME, DIRECTORS, WRITERS, ACTORS, MONTHS, COUNTRIES, GENRES};
+export {USER_STATUSES, FILTER_NAMES, PREVIEW_IMAGES, FILM_NAMES, DIRECTORS, WRITERS, ACTORS, MONTHS, COUNTRIES, GENRES};

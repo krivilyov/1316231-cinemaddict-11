@@ -1,14 +1,13 @@
-import {FILTERS_NAME} from "../constants.js";
+import {FILTER_NAMES} from "../constants.js";
 
 const generateFilters = () => {
-  let filterParams = [];
-
-  FILTERS_NAME.forEach((value) => {
-    value.count = Math.floor(Math.random() * 10);
-    filterParams.push(value);
+  return FILTER_NAMES.map((value) => {
+    return {
+      id: value.id,
+      name: value.name,
+      count: Math.floor(Math.random() * 10),
+    };
   });
-
-  return filterParams;
 };
 
 export {generateFilters};

@@ -1,11 +1,11 @@
-import {PREVIEW_IMAGES, FILMS_NAME, DIRECTORS, WRITERS, ACTORS, MONTHS, COUNTRIES, GENRES} from "../constants.js";
+import {PREVIEW_IMAGES, FILM_NAMES, DIRECTORS, WRITERS, ACTORS, MONTHS, COUNTRIES, GENRES} from "../constants.js";
 
 const generatePreviewImage = (key) => {
   return PREVIEW_IMAGES[key];
 };
 
 const generateName = (key) => {
-  return FILMS_NAME[key];
+  return FILM_NAMES[key];
 };
 
 const generateRating = () => {

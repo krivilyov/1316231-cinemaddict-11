@@ -26,6 +26,7 @@ render(siteHeaderElement, createUserProfileTemplate(userProfile));
 
 const siteMainElement = document.querySelector(`.main`);
 const filters = generateFilters();
+console.log(filters);
 render(siteMainElement, createFilterTemplate(filters));
 render(siteMainElement, createSortMenuTemplate());
 render(siteMainElement, createFilmsMainWrapTemplate());
