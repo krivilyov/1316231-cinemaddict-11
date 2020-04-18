@@ -12,14 +12,14 @@ import {createFilmTemplate} from "./components/film.js";
 import {createExtraFilmsWrapTemplate} from "./components/extra-films-wrap.js";
 import {createStatisticCounterTemplate} from "./components/statistic-counter.js";
 import {createFilmDetailTemplate} from "./components/film-detail.js";
-import {createUserProfile} from "./mock/user-profile.js";
+import {generateUserProfile} from "./mock/user-profile.js";
 
 const render = (container, template, place = `beforeend`) => {
   container.insertAdjacentHTML(place, template);
 };
 
 const siteHeaderElement = document.querySelector(`.header`);
-const userProfile = createUserProfile();
+const userProfile = generateUserProfile();
 render(siteHeaderElement, createUserProfileTemplate(userProfile));
 
 const siteMainElement = document.querySelector(`.main`);
