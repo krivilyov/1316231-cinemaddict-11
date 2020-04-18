@@ -14,6 +14,7 @@ import {createStatisticCounterTemplate} from "./components/statistic-counter.js"
 import {createFilmDetailTemplate} from "./components/film-detail.js";
 import {generateUserProfile} from "./mock/user-profile.js";
 import {generateFilters} from "./mock/filter.js";
+import {generateFilms} from "./mock/film.js";
 
 const render = (container, template, place = `beforeend`) => {
   container.insertAdjacentHTML(place, template);
@@ -35,9 +36,10 @@ render(siteFilmsWrapElement, createAllFilmsWrapTemplate());
 const siteAllFilmsListWrapElement = document.querySelector(`.films-list`);
 render(siteAllFilmsListWrapElement, createLoadMoreButtonTemplate());
 
+const films = generateFilms(FILMS_COUNT);
 const siteAllFilmsListContainerElement = siteAllFilmsListWrapElement.querySelector(`.films-list__container`);
-for (let i = 0; i < FILMS_COUNT; i++) {
-  render(siteAllFilmsListContainerElement, createFilmTemplate());
+for (let i = 0; i < films.length; i++) {
+  render(siteAllFilmsListContainerElement, createFilmTemplate(films[i]));
 }
 
 for (let i = 0; i < EXTRA_FILMS_SECTION_COUNT; i++) {
@@ -50,7 +52,7 @@ if (siteExtraFilmsListWrapElements.length) {
 
     for (let j = 0; j < EXTRA_FILMS_COUNT; j++) {
       const siteExtraFilmsWrapElement = siteExtraFilmsListWrapElements[i].querySelector(`.films-list__container`);
-      render(siteExtraFilmsWrapElement, createFilmTemplate());
+      render(siteExtraFilmsWrapElement, createFilmTemplate(films[j]));
     }
 
   }

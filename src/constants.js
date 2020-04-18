@@ -12,4 +12,75 @@ const FILTERS_NAME = [
   {id: `favorites`, name: `Favorites`},
 ];
 
-export {USER_STATUSES, FILTERS_NAME};
+const PREVIEW_IMAGES = [
+  `./images/posters/made-for-each-other.png`,
+  `./images/posters/popeye-meets-sinbad.png`,
+  `./images/posters/sagebrush-trail.jpg`,
+  `./images/posters/santa-claus-conquers-the-martians.jpg`,
+  `./images/posters/the-dance-of-life.jpg`,
+  `./images/posters/the-great-flamarion.jpg`,
+  `./images/posters/the-man-with-the-golden-arm.jpg`,
+];
+
+const FILMS_NAME = [
+  `Made for each other`,
+  `Popeye Meets Sinbad`,
+  `Sagebrush Trail`,
+  `Santa Claus conquers the Martians`,
+  `The Dance of Life`,
+  `The Great Flamarion`,
+  `The man with The golden arm`,
+];
+
+const DIRECTORS = [
+  `Anthony Mann`,
+  `Mar Uolberg`,
+  `Dim Matchel`,
+  `Ron Mute`,
+  `Lory Metabra`,
+];
+
+const WRITERS = [
+  `Anne Wigton`,
+  `Heinz Herald`,
+  `Richard Weil`,
+];
+
+const ACTORS = [
+  `Erich von Stroheim`,
+  `Mary Beth Hughes`,
+  `Dan Duryea`,
+];
+
+const MONTHS = [
+  `January`,
+  `February`,
+  `March`,
+  `April`,
+  `May`,
+  `June`,
+  `July`,
+  `August`,
+  `September`,
+  `October`,
+  `November`,
+  `December`,
+];
+
+const COUNTRIES = [
+  `USA`,
+  `Canada`,
+  `Bolivia`,
+  `Denmark`,
+  `Guinea`,
+  `India`,
+  `Libya`,
+];
+
+const GENRES = [
+  `Drama`,
+  `Film-Noir`,
+  `Mystery`,
+];
+
+export {USER_STATUSES, FILTERS_NAME, PREVIEW_IMAGES, FILMS_NAME, DIRECTORS, WRITERS, ACTORS, MONTHS, COUNTRIES, GENRES};
