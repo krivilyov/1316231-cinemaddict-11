@@ -83,4 +83,11 @@ const GENRES = [
   `Mystery`,
 ];
 
-export {USER_STATUSES, FILTER_NAMES, PREVIEW_IMAGES, FILM_NAMES, DIRECTORS, WRITERS, ACTORS, MONTHS, COUNTRIES, GENRES};
+const EMOJI = [
+  `./images/emoji/angry.png`,
+  `./images/emoji/puke.png`,
+  `./images/emoji/sleeping.png`,
+  `./images/emoji/smile.png`,
+];
+
+export {USER_STATUSES, FILTER_NAMES, PREVIEW_IMAGES, FILM_NAMES, DIRECTORS, WRITERS, ACTORS, MONTHS, COUNTRIES, GENRES, EMOJI};

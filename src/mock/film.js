@@ -1,4 +1,5 @@
 import {PREVIEW_IMAGES, FILM_NAMES, DIRECTORS, WRITERS, ACTORS, MONTHS, COUNTRIES, GENRES} from "../constants.js";
+import {generateComments} from "./comments";
 
 const generatePreviewImage = (key) => {
   return PREVIEW_IMAGES[key];
@@ -48,7 +49,7 @@ const generateTime = () => {
   const hour = Math.floor((Math.random() * 2) + 1);
   const minutes = Math.floor((Math.random() * 60) + 1);
 
-  return hour + `h ` + minutes + `m`;
+  return `${hour}h ${minutes}m`;
 };
 
 const generateCountry = () => {
@@ -71,9 +72,9 @@ const generateFilm = () => {
     runtime: generateTime(),
     country: generateCountry(),
     genres: generateEssence(GENRES),
-    description: `The film opens following a murder at a cabaret in Mexico City in 1936, and then presents the events leading up to it in flashback. The Great Flamarion (Erich von Stroheim) is an arrogant, friendless, and misogynous marksman who displays his trick gunshot act in the vaudeville circuit. His show features a beautiful assistant, Connie (Mary Beth Hughes) and her drunken husband Al (Dan Duryea), Flamarion's other assistant. Flamarion falls in love with Connie, the movie's femme fatale, and is soon manipulated by her into killing her no good husband during one of their acts.`,
+    description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`,
     ratingAge: Math.floor((Math.random() * 18) + 7),
-    commentsCount: Math.floor(Math.random() * 100),
+    comments: generateComments(),
   };
 };
 

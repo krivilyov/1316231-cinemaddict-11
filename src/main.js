@@ -38,8 +38,9 @@ render(siteAllFilmsListWrapElement, createLoadMoreButtonTemplate());
 
 const films = generateFilms(FILMS_COUNT);
 const siteAllFilmsListContainerElement = siteAllFilmsListWrapElement.querySelector(`.films-list__container`);
-for (let i = 0; i < films.length; i++) {
-  render(siteAllFilmsListContainerElement, createFilmTemplate(films[i]));
+
+for (let film of films) {
+  render(siteAllFilmsListContainerElement, createFilmTemplate(film));
 }
 
 for (let i = 0; i < EXTRA_FILMS_SECTION_COUNT; i++) {
