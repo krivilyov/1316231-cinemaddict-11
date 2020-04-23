@@ -33,7 +33,7 @@ const generateEmoji = () => {
   return EMOJI[Math.floor(Math.random() * EMOJI.length)];
 };
 
-const commentatorsName = [
+const commentatorNames = [
   `Sylvester Stallone`,
   `Chuck Norris`,
   `Jean-Claude Van Damme`,
@@ -42,7 +42,7 @@ const commentatorsName = [
   `Kurt Russell`,
 ];
 
-const commentsContent = [
+const commentContents = [
   `It's cool!`,
   `It's funny!`,
   `I like it!`,
@@ -52,11 +52,11 @@ const commentsContent = [
 ];
 
 const generateCommentatorName = () => {
-  return commentatorsName[Math.floor(Math.random() * commentatorsName.length)];
+  return commentatorNames[Math.floor(Math.random() * commentatorNames.length)];
 };
 
 const generateCommentText = () => {
-  return commentsContent[Math.floor(Math.random() * commentsContent.length)];
+  return commentContents[Math.floor(Math.random() * commentContents.length)];
 };
 
 const generateComment = () => {
