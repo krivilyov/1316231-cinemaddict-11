@@ -39,7 +39,7 @@ render(siteAllFilmsListWrapElement, createLoadMoreButtonTemplate());
 const films = generateFilms(FILMS_COUNT);
 const siteAllFilmsListContainerElement = siteAllFilmsListWrapElement.querySelector(`.films-list__container`);
 
-for (let film of films) {
+for (const film of films) {
   render(siteAllFilmsListContainerElement, createFilmTemplate(film));
 }
 
