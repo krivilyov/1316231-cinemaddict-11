@@ -56,6 +56,21 @@ const generateCountry = () => {
   return COUNTRIES[Math.floor(Math.random() * COUNTRIES.length)];
 };
 
+const generateDescription = () => {
+  let description = `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`;
+  const text = `Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`;
+  const texts = text.split(`.`);
+  const quantityLines = Math.floor(Math.random() * 5 + 1);
+
+  if (quantityLines > 1) {
+    for (let i = 1; i < quantityLines; i++) {
+      description = description + texts[i] + `.`;
+    }
+  }
+
+  return description;
+};
+
 const generateFilm = () => {
   const key = Math.floor(Math.random() * 6);
 
@@ -72,7 +87,7 @@ const generateFilm = () => {
     runtime: generateTime(),
     country: generateCountry(),
     genres: generateEssence(GENRES),
-    description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`,
+    description: generateDescription(),
     ratingAge: Math.floor((Math.random() * 18) + 7),
     comments: generateComments(),
   };
