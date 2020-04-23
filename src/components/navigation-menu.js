@@ -1,7 +1,9 @@
 const createFilterMarkup = (filter, isActive) => {
   const {id, name, count} = filter;
+  const active = isActive ? ` main-navigation__item--active` : ``;
+  const quantity = id !== `all` ? `<span class="main-navigation__item-count">${count}</span>` : ``;
 
-  return (`<a href="#${id}" class="main-navigation__item${isActive ? ` main-navigation__item--active` : ``}">${name} ${id !== `all` ? `<span class="main-navigation__item-count">${count}</span>` : ``}</a>`);
+  return (`<a href="#${id}" class="main-navigation__item${active}">${name} ${quantity}</a>`);
 };
 
 export const createFilterTemplate = (filters) => {
