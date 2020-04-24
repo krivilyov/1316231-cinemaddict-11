@@ -1,5 +1,7 @@
 import {PREVIEW_IMAGES, FILM_NAMES, DIRECTORS, WRITERS, ACTORS, MONTHS, COUNTRIES, GENRES} from "../constants.js";
 import {generateComments} from "./comments";
+import {getRandomNumber} from "../utils";
+import {getRandomItem} from "../utils";
 
 const generatePreviewImage = (key) => {
   return PREVIEW_IMAGES[key];
@@ -14,26 +16,7 @@ const generateRating = () => {
 };
 
 const generateDirector = () => {
-  return DIRECTORS[Math.floor(Math.random() * 5)];
-};
-
-const generateEssence = (essence) => {
-  const breakPoint = Math.floor((Math.random() * essence.length) + 1);
-  let result = ``;
-
-  for (const index in essence) {
-    if (index < breakPoint) {
-      if (parseInt(index, 16) === 0) {
-        result = result + essence[index];
-      } else {
-        result = result + `, ` + essence[index];
-      }
-    } else {
-      break;
-    }
-  }
-
-  return result;
+  return DIRECTORS[getRandomNumber(0, 5)];
 };
 
 const generateDate = () => {
@@ -46,21 +29,21 @@ const generateDate = () => {
 };
 
 const generateTime = () => {
-  const hour = Math.floor((Math.random() * 2) + 1);
-  const minutes = Math.floor((Math.random() * 60) + 1);
+  const hour = getRandomNumber(1, 2);
+  const minutes = getRandomNumber(1, 60);
 
   return `${hour}h ${minutes}m`;
 };
 
 const generateCountry = () => {
-  return COUNTRIES[Math.floor(Math.random() * COUNTRIES.length)];
+  return COUNTRIES[getRandomNumber(0, COUNTRIES.length)];
 };
 
 const generateDescription = () => {
   let description = `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`;
   const text = `Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`;
   const texts = text.split(`.`);
-  const quantityLines = Math.floor(Math.random() * 5 + 1);
+  const quantityLines = getRandomNumber(1, 5);
 
   if (quantityLines > 1) {
     for (let i = 1; i < quantityLines; i++) {
@@ -71,8 +54,19 @@ const generateDescription = () => {
   return description;
 };
 
+const generateGenres = () => {
+  let genres = [];
+  const point = getRandomNumber(0, GENRES.length);
+
+  for (let i = 0; i <= point; i++) {
+    genres.push(GENRES[i]);
+  }
+
+  return genres;
+};
+
 const generateFilm = () => {
-  const key = Math.floor(Math.random() * 6);
+  const key = getRandomNumber(0, 6);
 
   return {
     previewImage: generatePreviewImage(key),
@@ -81,14 +75,14 @@ const generateFilm = () => {
     originalName: generateName(key),
     rating: generateRating(),
     director: generateDirector(),
-    writers: generateEssence(WRITERS),
-    actors: generateEssence(ACTORS),
+    writers: getRandomItem(WRITERS),
+    actors: getRandomItem(ACTORS),
     releaseDate: generateDate(),
     runtime: generateTime(),
     country: generateCountry(),
-    genres: generateEssence(GENRES),
+    genres: generateGenres(),
     description: generateDescription(),
-    ratingAge: Math.floor((Math.random() * 18) + 7),
+    ratingAge: getRandomNumber(0, 18),
     comments: generateComments(),
   };
 };

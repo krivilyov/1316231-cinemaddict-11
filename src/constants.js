@@ -1,18 +1,24 @@
-const USER_STATUSES = [
+export const FILMS_COUNT = 17;
+export const EXTRA_FILMS_SECTION_COUNT = 2;
+export const EXTRA_FILMS_COUNT = 2;
+export const SHOWING_FILMS_COUNT_ON_START = 5;
+export const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
+
+export const USER_STATUSES = [
   {name: ``, value: 0},
   {name: `novice`, value: 1},
   {name: `fan`, value: 11},
   {name: `movie buff`, value: 21},
 ];
 
-const FILTER_NAMES = [
+export const FILTER_NAMES = [
   {id: `all`, name: `All movies`},
   {id: `watchlist`, name: `Watchlist`},
   {id: `history`, name: `History`},
   {id: `favorites`, name: `Favorites`},
 ];
 
-const PREVIEW_IMAGES = [
+export const PREVIEW_IMAGES = [
   `./images/posters/made-for-each-other.png`,
   `./images/posters/popeye-meets-sinbad.png`,
   `./images/posters/sagebrush-trail.jpg`,
@@ -22,7 +28,7 @@ const PREVIEW_IMAGES = [
   `./images/posters/the-man-with-the-golden-arm.jpg`,
 ];
 
-const FILM_NAMES = [
+export const FILM_NAMES = [
   `Made for each other`,
   `Popeye Meets Sinbad`,
   `Sagebrush Trail`,
@@ -32,7 +38,7 @@ const FILM_NAMES = [
   `The man with The golden arm`,
 ];
 
-const DIRECTORS = [
+export const DIRECTORS = [
   `Anthony Mann`,
   `Mar Uolberg`,
   `Dim Matchel`,
@@ -40,19 +46,19 @@ const DIRECTORS = [
   `Lory Metabra`,
 ];
 
-const WRITERS = [
+export const WRITERS = [
   `Anne Wigton`,
   `Heinz Herald`,
   `Richard Weil`,
 ];
 
-const ACTORS = [
+export const ACTORS = [
   `Erich von Stroheim`,
   `Mary Beth Hughes`,
   `Dan Duryea`,
 ];
 
-const MONTHS = [
+export const MONTHS = [
   `January`,
   `February`,
   `March`,
@@ -67,7 +73,7 @@ const MONTHS = [
   `December`,
 ];
 
-const COUNTRIES = [
+export const COUNTRIES = [
   `USA`,
   `Canada`,
   `Bolivia`,
@@ -77,17 +83,33 @@ const COUNTRIES = [
   `Libya`,
 ];
 
-const GENRES = [
+export const GENRES = [
   `Drama`,
   `Film-Noir`,
   `Mystery`,
 ];
 
-const EMOJI = [
+export const EMOJI = [
   `./images/emoji/angry.png`,
   `./images/emoji/puke.png`,
   `./images/emoji/sleeping.png`,
   `./images/emoji/smile.png`,
 ];
 
-export {USER_STATUSES, FILTER_NAMES, PREVIEW_IMAGES, FILM_NAMES, DIRECTORS, WRITERS, ACTORS, MONTHS, COUNTRIES, GENRES, EMOJI};
+export const COMMENTATORS_NAME = [
+  `Sylvester Stallone`,
+  `Chuck Norris`,
+  `Jean-Claude Van Damme`,
+  `Arnold Schwarzenegger`,
+  `Jackie Chan`,
+  `Kurt Russell`,
+];
+
+export const COMMENTS_CONTENT = [
+  `It's cool!`,
+  `It's funny!`,
+  `I like it!`,
+  `I love this film!`,
+  `Boring!`,
+  `Bad film!`,
+];

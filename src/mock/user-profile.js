@@ -1,7 +1,8 @@
 import {USER_STATUSES} from "../constants.js";
+import {getRandomNumber} from "../utils";
 
 const generateUserProfile = () => {
-  const quantityViewedFilms = Math.floor(Math.random() * 100);
+  const quantityViewedFilms = getRandomNumber(0, 100);
   let userProfile = {};
 
   for (const status of USER_STATUSES) {

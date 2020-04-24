@@ -1,6 +1,4 @@
-const FILMS_COUNT = 5;
-const EXTRA_FILMS_SECTION_COUNT = 2;
-const EXTRA_FILMS_COUNT = 2;
+import {FILMS_COUNT, EXTRA_FILMS_SECTION_COUNT, EXTRA_FILMS_COUNT, SHOWING_FILMS_COUNT_ON_START, SHOWING_FILMS_COUNT_BY_BUTTON} from "./constants";
 
 import {createUserProfileTemplate} from "./components/user-profile.js";
 import {createFilterTemplate} from "./components/navigation-menu.js";
@@ -39,8 +37,8 @@ render(siteAllFilmsListWrapElement, createLoadMoreButtonTemplate());
 const films = generateFilms(FILMS_COUNT);
 const siteAllFilmsListContainerElement = siteAllFilmsListWrapElement.querySelector(`.films-list__container`);
 
-for (const film of films) {
-  render(siteAllFilmsListContainerElement, createFilmTemplate(film));
+for (let i = 0; i < SHOWING_FILMS_COUNT_ON_START; i++) {
+  render(siteAllFilmsListContainerElement, createFilmTemplate(films[i]));
 }
 
 for (let i = 0; i < EXTRA_FILMS_SECTION_COUNT; i++) {
@@ -62,10 +60,62 @@ if (siteExtraFilmsListWrapElements.length) {
 const siteFooterStatisticElement = document.querySelector(`.footer__statistics`);
 render(siteFooterStatisticElement, createStatisticCounterTemplate());
 
-const siteActiveFilmDetailElements = document.querySelectorAll(`.film-card__poster`);
-const siteFooterElement = document.querySelector(`.footer`);
-if (siteActiveFilmDetailElements.length) {
-  siteActiveFilmDetailElements.forEach((img) => {
-    img.addEventListener(`click`, () => render(siteFooterElement, createFilmDetailTemplate(), `afterend`));
+// открытие попапа детального описания кино
+openPopapFilmDetail();
+
+const loadMoreButton = siteAllFilmsListWrapElement.querySelector(`.films-list__show-more`);
+
+loadMoreButton.addEventListener(`click`, () => {
+  let showingFilmsCount = siteAllFilmsListContainerElement.querySelectorAll(`.film-card`).length;
+  const prevFilmsCount = showingFilmsCount;
+  showingFilmsCount = showingFilmsCount + SHOWING_FILMS_COUNT_BY_BUTTON;
+  films.slice(prevFilmsCount, showingFilmsCount).forEach((film) => render(siteAllFilmsListContainerElement, createFilmTemplate(film)));
+  if (showingFilmsCount >= films.length) {
+    loadMoreButton.remove();
+  }
+
+  // переинициализируем открытие попапа
+  openPopapFilmDetail();
+});
+
+function openPopapFilmDetail() {
+  let siteFilmElements = document.querySelectorAll(`.film-card`);
+  const siteFooterElement = document.querySelector(`.footer`);
+  if (siteFilmElements.length) {
+    siteFilmElements.forEach((element, i) => {
+      element.querySelector(`.film-card__poster`).addEventListener(`click`, () => {
+        render(siteFooterElement, createFilmDetailTemplate(films[i]), `afterend`);
+        // инициализируем кнопку выключения попапа
+        closePopapFilmDetails();
+      });
+
+      element.querySelector(`.film-card__title`).addEventListener(`click`, () => {
+        render(siteFooterElement, createFilmDetailTemplate(films[i]), `afterend`);
+        // инициализируем кнопку выключения попапа
+        closePopapFilmDetails();
+      });
+
+      element.querySelector(`.film-card__comments`).addEventListener(`click`, () => {
+        render(siteFooterElement, createFilmDetailTemplate(films[i]), `afterend`);
+        // инициализируем кнопку выключения попапа
+        closePopapFilmDetails();
+      });
+    });
+  }
+}
+
+function closePopapFilmDetails() {
+  const filmDetailsElement = document.querySelector(`.film-details`);
+  const filmDetailsCloseBtnElement = filmDetailsElement.querySelector(`.film-details__close-btn`);
+
+  filmDetailsCloseBtnElement.addEventListener(`click`, () => {
+    filmDetailsElement.remove();
+  });
+
+  // слушаем Esc
+  document.addEventListener(`keydown`, (e) => {
+    if (e.which === 27) {
+      filmDetailsElement.remove();
+    }
   });
 }

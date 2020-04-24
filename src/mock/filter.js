@@ -1,11 +1,12 @@
 import {FILTER_NAMES} from "../constants.js";
+import {getRandomNumber} from "../utils";
 
 const generateFilters = () => {
   return FILTER_NAMES.map((value) => {
     return {
       id: value.id,
       name: value.name,
-      count: Math.floor(Math.random() * 10),
+      count: getRandomNumber(0, 10),
     };
   });
 };

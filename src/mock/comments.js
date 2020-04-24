@@ -1,7 +1,8 @@
-import {EMOJI} from "../constants.js";
+import {EMOJI, COMMENTATORS_NAME, COMMENTS_CONTENT} from "../constants.js";
+import {getRandomNumber} from "../utils";
 
 const generateRandomDate = () => {
-  const start = new Date(`2019-04-20`).getTime();
+  const start = new Date(`2020-03-20`).getTime();
   const end = new Date(`2020-04-21`).getTime();
   let randomDate = new Date((Math.random() * (end - start)) + start);
   randomDate = randomDate.getFullYear() + `/` + (randomDate.getMonth() + 1) + `/` + randomDate.getDate() + ` ` + randomDate.getHours() + `:` + randomDate.getMinutes();
@@ -30,33 +31,15 @@ const generateDate = () => {
 };
 
 const generateEmoji = () => {
-  return EMOJI[Math.floor(Math.random() * EMOJI.length)];
+  return EMOJI[getRandomNumber(0, EMOJI.length)];
 };
 
-const commentatorNames = [
-  `Sylvester Stallone`,
-  `Chuck Norris`,
-  `Jean-Claude Van Damme`,
-  `Arnold Schwarzenegger`,
-  `Jackie Chan`,
-  `Kurt Russell`,
-];
-
-const commentContents = [
-  `It's cool!`,
-  `It's funny!`,
-  `I like it!`,
-  `I love this film!`,
-  `Boring!`,
-  `Bad film!`,
-];
-
 const generateCommentatorName = () => {
-  return commentatorNames[Math.floor(Math.random() * commentatorNames.length)];
+  return COMMENTATORS_NAME[getRandomNumber(0, COMMENTATORS_NAME.length)];
 };
 
 const generateCommentText = () => {
-  return commentContents[Math.floor(Math.random() * commentContents.length)];
+  return COMMENTS_CONTENT[getRandomNumber(0, COMMENTS_CONTENT.length)];
 };
 
 const generateComment = () => {
@@ -69,7 +52,7 @@ const generateComment = () => {
 };
 
 const generateComments = () => {
-  const count = Math.floor(Math.random() * 5 + 1);
+  const count = getRandomNumber(1, 5);
 
   return new Array(count)
     .fill(``)
