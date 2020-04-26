@@ -9,7 +9,7 @@ import {createLoadMoreButtonTemplate} from "./components/load-more-button.js";
 import {createFilmTemplate} from "./components/film.js";
 import {createExtraFilmsWrapTemplate} from "./components/extra-films-wrap.js";
 import {createStatisticCounterTemplate} from "./components/statistic-counter.js";
-import {createFilmDetailsTemplate} from "./components/film-detail.js";
+import {createFilmDetailsTemplate} from "./components/film-details.js";
 import {generateUserProfile} from "./mock/user-profile.js";
 import {generateFilters} from "./mock/filter.js";
 import {generateFilms} from "./mock/film.js";
@@ -35,12 +35,17 @@ const siteAllFilmsListWrapElement = document.querySelector(`.films-list`);
 render(siteAllFilmsListWrapElement, createLoadMoreButtonTemplate());
 
 const films = generateFilms(FILMS_COUNT);
-
 const siteAllFilmsListContainerElement = siteAllFilmsListWrapElement.querySelector(`.films-list__container`);
 
-for (let i = 0; i < SHOWING_FILMS_COUNT_ON_START; i++) {
-  render(siteAllFilmsListContainerElement, createFilmTemplate(films[i]));
-}
+const renderFilms = (start, end) => {
+  films
+    .slice(start, end)
+    .forEach((film) => {
+      render(siteAllFilmsListContainerElement, createFilmTemplate(film));
+    });
+};
+
+renderFilms(0, SHOWING_FILMS_COUNT_ON_START);
 
 for (let i = 0; i < EXTRA_FILMS_SECTION_COUNT; i++) {
   render(siteFilmsWrapElement, createExtraFilmsWrapTemplate());
@@ -70,7 +75,8 @@ loadMoreButton.addEventListener(`click`, () => {
   let showingFilmsCount = siteAllFilmsListContainerElement.querySelectorAll(`.film-card`).length;
   const prevFilmsCount = showingFilmsCount;
   showingFilmsCount = showingFilmsCount + SHOWING_FILMS_COUNT_BY_BUTTON;
-  films.slice(prevFilmsCount, showingFilmsCount).forEach((film) => render(siteAllFilmsListContainerElement, createFilmTemplate(film)));
+  renderFilms(prevFilmsCount, showingFilmsCount);
+
   if (showingFilmsCount >= films.length) {
     loadMoreButton.remove();
   }

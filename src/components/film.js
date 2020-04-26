@@ -6,6 +6,7 @@ export const createFilmTemplate = (film) => {
   const formattedRunTime = formatRunTime(runtime);
   const formattedGenres = getRandomItem(genres);
   const formattedReleaseDate = formatReleaseDate(releaseDate);
+  const formattedDescription = formatDescription(description);
 
   return (
     `<article class="film-card">
@@ -17,7 +18,7 @@ export const createFilmTemplate = (film) => {
             <span class="film-card__genre">${formattedGenres}</span>
           </p>
           <img src="${previewImage}" alt="" class="film-card__poster">
-          <p class="film-card__description">${description.substr(0, 137)}...</p>
+          <p class="film-card__description">${formattedDescription.substr(0, 137)}...</p>
           <a class="film-card__comments">${comments.length} comments</a>
           <form class="film-card__controls">
             <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist">Add to watchlist</button>
@@ -34,4 +35,8 @@ export const formatRunTime = (runtime) => {
 
 const formatReleaseDate = (releaseDate) => {
   return `${releaseDate.getFullYear()}`;
+};
+
+export const formatDescription = (description) => {
+  return description.join(` `);
 };

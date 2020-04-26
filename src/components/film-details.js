@@ -1,6 +1,6 @@
 import {MONTHS} from "../constants.js";
 import {createCommentsTemplate} from "./comments";
-import {formatRunTime} from "./film";
+import {formatDescription, formatRunTime} from "./film";
 
 export const createFilmDetailsTemplate = (film) => {
   const {fullImage, name, originalName, rating, director, writers, actors, releaseDate, runtime, country, genres, description, ratingAge, comments} = film;
@@ -12,6 +12,7 @@ export const createFilmDetailsTemplate = (film) => {
     .join(``);
 
   const formattedReleaseDate = formatReleaseDate(releaseDate);
+  const formattedDescription = formatDescription(description);
 
   return (
     `<section class="film-details">
@@ -73,7 +74,7 @@ export const createFilmDetailsTemplate = (film) => {
               </table>
 
               <p class="film-details__film-description">
-                ${description}
+                ${formattedDescription}
               </p>
             </div>
           </div>
