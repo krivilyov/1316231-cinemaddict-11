@@ -96,7 +96,7 @@ export const EMOJI = [
   `./images/emoji/smile.png`,
 ];
 
-export const COMMENTATORS_NAME = [
+export const COMMENTATOR_NAMES = [
   `Sylvester Stallone`,
   `Chuck Norris`,
   `Jean-Claude Van Damme`,

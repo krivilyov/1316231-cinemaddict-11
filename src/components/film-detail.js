@@ -1,15 +1,17 @@
+import {MONTHS} from "../constants.js";
 import {createCommentsTemplate} from "./comments";
+import {formatRunTime} from "./film";
 
-
-export const createFilmDetailTemplate = (film) => {
+export const createFilmDetailsTemplate = (film) => {
   const {fullImage, name, originalName, rating, director, writers, actors, releaseDate, runtime, country, genres, description, ratingAge, comments} = film;
 
   const commentsTemplate = createCommentsTemplate(comments);
+  const formattedRunTime = formatRunTime(runtime);
+  const genreBlock = genres
+    .map((genre) => createGenresBlock(genre))
+    .join(``);
 
-  let genreBlock = ``;
-  for (const genre of genres) {
-    genreBlock = genreBlock + `<span class="film-details__genre">${genre}</span>`;
-  }
+  const formattedReleaseDate = formatReleaseDate(releaseDate);
 
   return (
     `<section class="film-details">
@@ -52,11 +54,11 @@ export const createFilmDetailTemplate = (film) => {
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Release Date</td>
-                  <td class="film-details__cell">${releaseDate}</td>
+                  <td class="film-details__cell">${formattedReleaseDate}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Runtime</td>
-                  <td class="film-details__cell">${runtime}</td>
+                  <td class="film-details__cell">${formattedRunTime}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Country</td>
@@ -96,4 +98,12 @@ export const createFilmDetailTemplate = (film) => {
       </form>
     </section>`
   );
+};
+
+const createGenresBlock = (genre) => {
+  return `<span class="film-details__genre">${genre}</span>`;
+};
+
+const formatReleaseDate = (releaseDate) => {
+  return (`0` + releaseDate.getDate()).slice(-2) + ` ` + MONTHS[releaseDate.getMonth() - 1] + ` ` + releaseDate.getFullYear();
 };

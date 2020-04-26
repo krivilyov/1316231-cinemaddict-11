@@ -6,7 +6,7 @@ const createFilterMarkup = (filter, isActive) => {
   return (`<a href="#${id}" class="main-navigation__item${active}">${name} ${quantity}</a>`);
 };
 
-export const createFilterTemplate = (filters) => {
+export const createMenuTemplate = (filters) => {
   const filterMarkup = filters.map((it, i) => createFilterMarkup(it, i === 0)).join(`\n`);
 
   return (

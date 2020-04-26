@@ -2,19 +2,18 @@ import {createCommentsBlock} from "./comment";
 
 export const createCommentsTemplate = (comments) => {
 
-  let commentsList = ``;
-  for (const comment of comments) {
-    commentsList = commentsList + createCommentsBlock(comment);
-  }
+  const commentsList = comments
+    .map((comment) => createCommentsBlock(comment))
+    .join(``);
 
-  return (`
-    <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
+  return (
+    `<h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
 
-    <ul class="film-details__comments-list">
-      ${commentsList}
-    </ul>
+      <ul class="film-details__comments-list">
+        ${commentsList}
+      </ul>
 
-    <div class="film-details__new-comment">
+      <div class="film-details__new-comment">
       <div for="add-emoji" class="film-details__add-emoji-label"></div>
 
       <label class="film-details__comment-label">

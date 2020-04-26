@@ -1,7 +1,7 @@
 import {FILMS_COUNT, EXTRA_FILMS_SECTION_COUNT, EXTRA_FILMS_COUNT, SHOWING_FILMS_COUNT_ON_START, SHOWING_FILMS_COUNT_BY_BUTTON} from "./constants";
 
 import {createUserProfileTemplate} from "./components/user-profile.js";
-import {createFilterTemplate} from "./components/navigation-menu.js";
+import {createMenuTemplate} from "./components/navigation-menu.js";
 import {createSortMenuTemplate} from "./components/sort-menu.js";
 import {createFilmsMainWrapTemplate} from "./components/films-main-wrap.js";
 import {createAllFilmsWrapTemplate} from "./components/all-films-wrap.js";
@@ -9,7 +9,7 @@ import {createLoadMoreButtonTemplate} from "./components/load-more-button.js";
 import {createFilmTemplate} from "./components/film.js";
 import {createExtraFilmsWrapTemplate} from "./components/extra-films-wrap.js";
 import {createStatisticCounterTemplate} from "./components/statistic-counter.js";
-import {createFilmDetailTemplate} from "./components/film-detail.js";
+import {createFilmDetailsTemplate} from "./components/film-detail.js";
 import {generateUserProfile} from "./mock/user-profile.js";
 import {generateFilters} from "./mock/filter.js";
 import {generateFilms} from "./mock/film.js";
@@ -24,7 +24,7 @@ render(siteHeaderElement, createUserProfileTemplate(userProfile));
 
 const siteMainElement = document.querySelector(`.main`);
 const filters = generateFilters();
-render(siteMainElement, createFilterTemplate(filters));
+render(siteMainElement, createMenuTemplate(filters));
 render(siteMainElement, createSortMenuTemplate());
 render(siteMainElement, createFilmsMainWrapTemplate());
 
@@ -35,6 +35,7 @@ const siteAllFilmsListWrapElement = document.querySelector(`.films-list`);
 render(siteAllFilmsListWrapElement, createLoadMoreButtonTemplate());
 
 const films = generateFilms(FILMS_COUNT);
+
 const siteAllFilmsListContainerElement = siteAllFilmsListWrapElement.querySelector(`.films-list__container`);
 
 for (let i = 0; i < SHOWING_FILMS_COUNT_ON_START; i++) {
@@ -79,29 +80,27 @@ loadMoreButton.addEventListener(`click`, () => {
 });
 
 function openPopapFilmDetail() {
-  let siteFilmElements = document.querySelectorAll(`.film-card`);
+  const siteFilmElements = document.querySelectorAll(`.film-card`);
   const siteFooterElement = document.querySelector(`.footer`);
-  if (siteFilmElements.length) {
-    siteFilmElements.forEach((element, i) => {
-      element.querySelector(`.film-card__poster`).addEventListener(`click`, () => {
-        render(siteFooterElement, createFilmDetailTemplate(films[i]), `afterend`);
-        // инициализируем кнопку выключения попапа
-        closePopapFilmDetails();
-      });
-
-      element.querySelector(`.film-card__title`).addEventListener(`click`, () => {
-        render(siteFooterElement, createFilmDetailTemplate(films[i]), `afterend`);
-        // инициализируем кнопку выключения попапа
-        closePopapFilmDetails();
-      });
-
-      element.querySelector(`.film-card__comments`).addEventListener(`click`, () => {
-        render(siteFooterElement, createFilmDetailTemplate(films[i]), `afterend`);
-        // инициализируем кнопку выключения попапа
-        closePopapFilmDetails();
-      });
+  siteFilmElements.forEach((element, i) => {
+    element.querySelector(`.film-card__poster`).addEventListener(`click`, () => {
+      render(siteFooterElement, createFilmDetailsTemplate(films[i]), `afterend`);
+      // инициализируем кнопку выключения попапа
+      closePopapFilmDetails();
     });
-  }
+
+    element.querySelector(`.film-card__title`).addEventListener(`click`, () => {
+      render(siteFooterElement, createFilmDetailsTemplate(films[i]), `afterend`);
+      // инициализируем кнопку выключения попапа
+      closePopapFilmDetails();
+    });
+
+    element.querySelector(`.film-card__comments`).addEventListener(`click`, () => {
+      render(siteFooterElement, createFilmDetailsTemplate(films[i]), `afterend`);
+      // инициализируем кнопку выключения попапа
+      closePopapFilmDetails();
+    });
+  });
 }
 
 function closePopapFilmDetails() {

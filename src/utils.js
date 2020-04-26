@@ -1,25 +1,18 @@
 export const getRandomNumber = (pointStart = 0, pointStop = 0) => {
-  let number = 0;
-
-  number = Math.floor((Math.random() * pointStop) + pointStart);
-
-  return number;
+  return Math.floor((Math.random() * pointStop) + pointStart);
 };
 
 export const getRandomItem = (items) => {
-  let item = ``;
+  return items[getRandomNumber(0, items.length - 1)];
+};
 
-  for (const index in items) {
-    if (index < getRandomNumber(1, items.length)) {
-      if (parseInt(index, 16) === 0) {
-        item = item + items[index];
-      } else {
-        item = item + `, ` + items[index];
-      }
-    } else {
-      break;
-    }
+export const getRandomItems = (items, count) => {
+  let newItems = [];
+  const itemsToProcess = [...items];
+
+  for (let i = 0; i < count; i++) {
+    const randomIndex = getRandomNumber(0, itemsToProcess.length);
+    newItems.push(...itemsToProcess.splice(randomIndex, 1));
   }
-
-  return item;
+  return newItems;
 };

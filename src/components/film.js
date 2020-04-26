@@ -1,14 +1,20 @@
+import {getRandomItem} from "../utils";
+
 export const createFilmTemplate = (film) => {
   const {previewImage, name, rating, releaseDate, runtime, genres, description, comments} = film;
+
+  const formattedRunTime = formatRunTime(runtime);
+  const formattedGenres = getRandomItem(genres);
+  const formattedReleaseDate = formatReleaseDate(releaseDate);
 
   return (
     `<article class="film-card">
         <h3 class="film-card__title">${name}</h3>
           <p class="film-card__rating">${rating}</p>
           <p class="film-card__info">
-            <span class="film-card__year">${releaseDate}</span>
-            <span class="film-card__duration">${runtime}</span>
-            <span class="film-card__genre">${genres}</span>
+            <span class="film-card__year">${formattedReleaseDate}</span>
+            <span class="film-card__duration">${formattedRunTime}</span>
+            <span class="film-card__genre">${formattedGenres}</span>
           </p>
           <img src="${previewImage}" alt="" class="film-card__poster">
           <p class="film-card__description">${description.substr(0, 137)}...</p>
@@ -20,4 +26,12 @@ export const createFilmTemplate = (film) => {
           </form>
     </article>`
   );
+};
+
+export const formatRunTime = (runtime) => {
+  return `${runtime.hour}h ${runtime.minutes}m`;
+};
+
+const formatReleaseDate = (releaseDate) => {
+  return `${releaseDate.getFullYear()}`;
 };
