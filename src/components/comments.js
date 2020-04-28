@@ -1,9 +1,12 @@
-import {createCommentsBlock} from "./comment";
+import CommentsContainerComponent from "./comment";
+import {createElement} from "../utils";
 
-export const createCommentsTemplate = (comments) => {
-
+const createCommentsTemplate = (comments) => {
   const commentsList = comments
-    .map((comment) => createCommentsBlock(comment))
+    .map((comment) => {
+      let commentsContainerComponent = new CommentsContainerComponent(comment);
+      return commentsContainerComponent.getTemplate();
+    })
     .join(``);
 
   return (
@@ -44,3 +47,26 @@ export const createCommentsTemplate = (comments) => {
     </div>`
   );
 };
+
+export default class CommentsComponent {
+  constructor(comments) {
+    this._comments = comments;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createCommentsTemplate(this._comments);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

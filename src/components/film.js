@@ -1,6 +1,6 @@
-import {getRandomItem} from "../utils";
+import {getRandomItem, createElement} from "../utils";
 
-export const createFilmTemplate = (film) => {
+const createFilmTemplate = (film) => {
   const {previewImage, name, rating, releaseDate, runtime, genres, description, comments} = film;
 
   const formattedRunTime = formatRunTime(runtime);
@@ -40,3 +40,27 @@ const formatReleaseDate = (releaseDate) => {
 export const formatDescription = (description) => {
   return description.join(` `);
 };
+
+export default class FilmComponent {
+  constructor(film) {
+    this._film = film;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmTemplate(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

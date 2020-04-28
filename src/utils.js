@@ -1,3 +1,8 @@
+export const RenderPosition = {
+  AFTERBEGIN: `afterbegin`,
+  BEFOREEND: `beforeend`
+};
+
 export const getRandomNumber = (pointStart = 0, pointStop = 0) => {
   return Math.floor((Math.random() * pointStop) + pointStart);
 };
@@ -15,4 +20,22 @@ export const getRandomItems = (items, count) => {
     newItems.push(...itemsToProcess.splice(randomIndex, 1));
   }
   return newItems;
+};
+
+export const createElement = (template) => {
+  const newElement = document.createElement(`div`);
+  newElement.innerHTML = template;
+
+  return newElement.firstChild;
+};
+
+export const render = (container, element, place) => {
+  switch (place) {
+    case RenderPosition.AFTERBEGIN:
+      container.prepend(element);
+      break;
+    case RenderPosition.BEFOREEND:
+      container.append(element);
+      break;
+  }
 };
