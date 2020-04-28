@@ -1,11 +1,18 @@
-export const createNavigationMenuTemplate = () => {
+const createFilterMarkup = (filter, isActive) => {
+  const {id, name, count} = filter;
+  const active = isActive ? ` main-navigation__item--active` : ``;
+  const quantity = id !== `all` ? `<span class="main-navigation__item-count">${count}</span>` : ``;
+
+  return (`<a href="#${id}" class="main-navigation__item${active}">${name} ${quantity}</a>`);
+};
+
+export const createMenuTemplate = (filters) => {
+  const filterMarkup = filters.map((it, i) => createFilterMarkup(it, i === 0)).join(`\n`);
+
   return (
     `<nav class="main-navigation">
         <div class="main-navigation__items">
-          <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
-          <a href="#watchlist" class="main-navigation__item">Watchlist <span class="main-navigation__item-count">13</span></a>
-          <a href="#history" class="main-navigation__item">History <span class="main-navigation__item-count">4</span></a>
-          <a href="#favorites" class="main-navigation__item">Favorites <span class="main-navigation__item-count">8</span></a>
+          ${filterMarkup}
         </div>
         <a href="#stats" class="main-navigation__additional">Stats</a>
     </nav>`
