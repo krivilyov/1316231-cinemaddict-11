@@ -10,7 +10,7 @@ const createSortMenuTemplate = () => {
   );
 };
 
-export default class SortMenuComponent {
+export default class SortMenu {
   constructor() {
     this._element = null;
   }

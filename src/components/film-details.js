@@ -111,7 +111,7 @@ const formatReleaseDate = (releaseDate) => {
 };
 
 
-export default class FilmDetailsComponent {
+export default class FilmDetails {
   constructor(film) {
     this._film = film;
 

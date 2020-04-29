@@ -9,7 +9,7 @@ const createUserProfileTemplate = (userProfile) => {
   );
 };
 
-export default class UserProfileComponent {
+export default class UserProfile {
   constructor(userProfile) {
     this._userProfile = userProfile;
 

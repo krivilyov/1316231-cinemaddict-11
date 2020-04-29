@@ -40,7 +40,7 @@ const formatDate = (date) => {
   return newDate;
 };
 
-export default class CommentsContainerComponent {
+export default class CommentsContainer {
   constructor(comment) {
     this._comment = comment;
     this._element = null;

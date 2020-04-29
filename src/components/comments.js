@@ -48,7 +48,7 @@ const createCommentsTemplate = (comments) => {
   );
 };
 
-export default class CommentsComponent {
+export default class Comments {
   constructor(comments) {
     this._comments = comments;
     this._element = null;

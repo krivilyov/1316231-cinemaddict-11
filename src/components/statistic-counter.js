@@ -6,7 +6,7 @@ const createStatisticCounterTemplate = () => {
   );
 };
 
-export default class StatisticCounterComponent {
+export default class StatisticCounter {
   constructor() {
     this._element = null;
   }

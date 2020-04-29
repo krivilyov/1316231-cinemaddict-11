@@ -10,7 +10,7 @@ const createAllFilmsContainerTemplate = () => {
   );
 };
 
-export default class AllFilmsContainerComponent {
+export default class AllFilmsContainer {
   constructor() {
     this._element = null;
   }

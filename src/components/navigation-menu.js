@@ -21,7 +21,7 @@ const createMenuTemplate = (filters) => {
   );
 };
 
-export default class MenuComponent {
+export default class Menu {
   constructor(filters) {
     this._filters = filters;
     this._element = null;

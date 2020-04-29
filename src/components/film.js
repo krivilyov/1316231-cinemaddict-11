@@ -41,7 +41,7 @@ export const formatDescription = (description) => {
   return description.join(` `);
 };
 
-export default class FilmComponent {
+export default class Film {
   constructor(film) {
     this._film = film;
 

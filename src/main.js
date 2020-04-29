@@ -8,6 +8,7 @@ import LoadMoreButtonComponent from "./components/load-more-button.js";
 import FilmComponent from "./components/film.js";
 import StatisticCounterComponent from "./components/statistic-counter.js";
 import FilmDetailsComponent from "./components/film-details.js";
+import NoFilmsComponent from "./components/no-films.js";
 
 import {generateUserProfile} from "./mock/user-profile.js";
 import {generateFilters} from "./mock/filter.js";
@@ -60,6 +61,13 @@ const renderBoard = (siteFilmsWrapElement, films) => {
   render(siteFilmsWrapElement, new AllFilmsContainerComponent().getElement(), RenderPosition.BEFOREEND);
 
   const siteAllFilmsListWrapElement = document.querySelector(`.films-list`);
+
+  // если фильмов нет выводим сообщение
+  if (films.length === 0) {
+    render(siteAllFilmsListWrapElement, new NoFilmsComponent().getElement(), RenderPosition.BEFOREEND);
+    return;
+  }
+
   const siteAllFilmsListContainerElement = siteAllFilmsListWrapElement.querySelector(`.films-list__container`);
 
   films
