@@ -3,10 +3,7 @@ import {createElement} from "../utils";
 
 const createCommentsTemplate = (comments) => {
   const commentsList = comments
-    .map((comment) => {
-      let commentsContainerComponent = new CommentsContainerComponent(comment);
-      return commentsContainerComponent.getTemplate();
-    })
+    .map((comment) => new CommentsContainerComponent(comment).getTemplate())
     .join(``);
 
   return (

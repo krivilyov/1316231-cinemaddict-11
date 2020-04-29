@@ -29,6 +29,11 @@ export const createElement = (template) => {
   return newElement.firstChild;
 };
 
+export const removeElement = (element) => {
+  element.getElement().remove();
+  element.removeElement();
+};
+
 export const render = (container, element, place) => {
   switch (place) {
     case RenderPosition.AFTERBEGIN:
