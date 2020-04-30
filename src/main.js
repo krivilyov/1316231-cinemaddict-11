@@ -59,8 +59,8 @@ const renderBoard = (siteFilmsWrapElement, films) => {
     return;
   }
 
-  const renderFilms = (startCount, stopCount) => {
-    films
+  const renderFilms = (allFilms, startCount, stopCount) => {
+    allFilms
       .slice(startCount, stopCount)
       .forEach((film) => {
         renderFilm(siteAllFilmsListContainerElement, film);
@@ -69,7 +69,7 @@ const renderBoard = (siteFilmsWrapElement, films) => {
 
   const siteAllFilmsListContainerElement = siteAllFilmsListWrapElement.querySelector(`.films-list__container`);
 
-  renderFilms(0, SHOWING_FILMS_COUNT_ON_START);
+  renderFilms(films, 0, SHOWING_FILMS_COUNT_ON_START);
 
   const loadMoreButtonComponent = new LoadMoreButtonComponent();
   render(siteAllFilmsListWrapElement, loadMoreButtonComponent.getElement(), RenderPosition.BEFOREEND);
@@ -79,7 +79,7 @@ const renderBoard = (siteFilmsWrapElement, films) => {
     const prevFilmsCount = showingFilmsCount;
     showingFilmsCount = showingFilmsCount + SHOWING_FILMS_COUNT_BY_BUTTON;
 
-    renderFilms(prevFilmsCount, showingFilmsCount);
+    renderFilms(films, prevFilmsCount, showingFilmsCount);
 
     if (showingFilmsCount >= films.length) {
       removeElement(loadMoreButtonComponent);
