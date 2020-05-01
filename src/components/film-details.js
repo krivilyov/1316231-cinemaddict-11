@@ -1,11 +1,12 @@
 import {MONTHS} from "../constants.js";
-import {createCommentsTemplate} from "./comments";
+import CommentsComponent from "./comments";
 import {formatDescription, formatRunTime} from "./film";
+import {createElement} from "../utils";
 
-export const createFilmDetailsTemplate = (film) => {
+const createFilmDetailsTemplate = (film) => {
   const {fullImage, name, originalName, rating, director, writers, actors, releaseDate, runtime, country, genres, description, ratingAge, comments} = film;
 
-  const commentsTemplate = createCommentsTemplate(comments);
+  const commentsTemplate = new CommentsComponent(comments).getTemplate();
   const formattedRunTime = formatRunTime(runtime);
   const genreBlock = genres
     .map((genre) => createGenresBlock(genre))
@@ -106,5 +107,30 @@ const createGenresBlock = (genre) => {
 };
 
 const formatReleaseDate = (releaseDate) => {
-  return (`0` + releaseDate.getDate()).slice(-2) + ` ` + MONTHS[releaseDate.getMonth() - 1] + ` ` + releaseDate.getFullYear();
+  return `${(`0` + releaseDate.getDate()).slice(-2)} ${MONTHS[releaseDate.getMonth() - 1]} ${releaseDate.getFullYear()}`;
 };
+
+
+export default class FilmDetails {
+  constructor(film) {
+    this._film = film;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmDetailsTemplate(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

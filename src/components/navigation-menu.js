@@ -1,3 +1,5 @@
+import {createElement} from "../utils";
+
 const createFilterMarkup = (filter, isActive) => {
   const {id, name, count} = filter;
   const active = isActive ? ` main-navigation__item--active` : ``;
@@ -6,7 +8,7 @@ const createFilterMarkup = (filter, isActive) => {
   return (`<a href="#${id}" class="main-navigation__item${active}">${name} ${quantity}</a>`);
 };
 
-export const createMenuTemplate = (filters) => {
+const createMenuTemplate = (filters) => {
   const filterMarkup = filters.map((it, i) => createFilterMarkup(it, i === 0)).join(`\n`);
 
   return (
@@ -18,3 +20,26 @@ export const createMenuTemplate = (filters) => {
     </nav>`
   );
 };
+
+export default class Menu {
+  constructor(filters) {
+    this._filters = filters;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createMenuTemplate(this._filters);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

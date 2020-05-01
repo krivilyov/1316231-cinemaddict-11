@@ -1,4 +1,6 @@
-export const createCommentsBlock = (comment) => {
+import {createElement} from "../utils";
+
+const createCommentsContainer = (comment) => {
   const {date, emoji, authorName, content} = comment;
 
   const formattedDate = formatDate(date);
@@ -37,3 +39,26 @@ const formatDate = (date) => {
 
   return newDate;
 };
+
+export default class CommentsContainer {
+  constructor(comment) {
+    this._comment = comment;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createCommentsContainer(this._comment);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
