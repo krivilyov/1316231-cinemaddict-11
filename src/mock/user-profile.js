@@ -1,25 +1,22 @@
-const maxNumber = Math.pow(10, 1000);
-const userProfile = {
-  statuses: [
-    {name: `novice`, min: 1, max: 10},
-    {name: `fan`, min: 11, max: 20},
-    {name: `movie buff`, min: 21, max: maxNumber},
-  ],
-  currentStatus: ``,
-};
+import {USER_STATUSES} from "../constants.js";
+import {getRandomNumber} from "../utils";
 
-const currentUserProfile = () => {
-  const quantityViewedFilms = Math.floor(Math.random() * 100);
+const generateUserProfile = () => {
+  const quantityViewedFilms = getRandomNumber(0, 100);
+  let userProfile = {};
 
-  if (userProfile.statuses && userProfile.statuses.length > 0) {
-    userProfile.statuses.forEach((statusParams) => {
-      if (quantityViewedFilms >= statusParams.min && quantityViewedFilms <= statusParams.max) {
-        userProfile.currentStatus = statusParams.name;
+  for (const status of USER_STATUSES) {
+    if (quantityViewedFilms >= status.value) {
+      userProfile.status = status.name;
+    } else {
+      if (typeof userProfile.status === `undefined`) {
+        userProfile.status = status.name;
       }
-    });
+      break;
+    }
   }
 
   return userProfile;
 };
 
-export {currentUserProfile};
+export {generateUserProfile};
