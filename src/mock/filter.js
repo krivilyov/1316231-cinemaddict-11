@@ -1,5 +1,5 @@
 import {FILTER_NAMES} from "../constants.js";
-import {getRandomNumber} from "../utils";
+import {getRandomNumber} from "../utils/common";
 
 const generateFilters = () => {
   return FILTER_NAMES.map((value) => ({

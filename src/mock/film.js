@@ -1,6 +1,6 @@
 import {PREVIEW_IMAGES, FILM_NAMES, DIRECTORS, WRITERS, ACTORS, COUNTRIES, GENRES, DESCRIPTIONS_CONTENT} from "../constants.js";
 import {generateComments, generateRandomDate} from "./comments";
-import {getRandomNumber, getRandomItem, getRandomItems} from "../utils";
+import {getRandomNumber, getRandomItem, getRandomItems} from "../utils/common";
 
 const generatePreviewImage = (key) => {
   return PREVIEW_IMAGES[key];

@@ -1,7 +1,7 @@
 import {MONTHS} from "../constants.js";
-import CommentsComponent from "./comments";
-import {formatDescription, formatRunTime} from "./film";
-import {createElement} from "../utils";
+import CommentsComponent from "./comments.js";
+import {formatDescription, formatRunTime} from "./film.js";
+import AbstractComponent from "./abstract-component.js";
 
 const createFilmDetailsTemplate = (film) => {
   const {fullImage, name, originalName, rating, director, writers, actors, releaseDate, runtime, country, genres, description, ratingAge, comments} = film;
@@ -111,26 +111,22 @@ const formatReleaseDate = (releaseDate) => {
 };
 
 
-export default class FilmDetails {
+export default class FilmDetails extends AbstractComponent {
   constructor(film) {
-    this._film = film;
+    super();
 
-    this._element = null;
+    this._film = film;
   }
 
   getTemplate() {
     return createFilmDetailsTemplate(this._film);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  setClickHandler(element, handler) {
+    element.addEventListener(`click`, handler);
   }
 
-  removeElement() {
-    this._element = null;
+  setEventHandler(element, handler) {
+    element.addEventListener(`keydown`, handler);
   }
 }

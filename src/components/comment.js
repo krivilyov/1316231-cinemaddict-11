@@ -1,4 +1,4 @@
-import {createElement} from "../utils";
+import AbstractComponent from "./abstract-component.js";
 
 const createCommentsContainer = (comment) => {
   const {date, emoji, authorName, content} = comment;
@@ -40,25 +40,14 @@ const formatDate = (date) => {
   return newDate;
 };
 
-export default class CommentsContainer {
+export default class CommentsContainer extends AbstractComponent {
   constructor(comment) {
+    super();
+
     this._comment = comment;
-    this._element = null;
   }
 
   getTemplate() {
     return createCommentsContainer(this._comment);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

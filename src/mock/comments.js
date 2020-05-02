@@ -1,5 +1,5 @@
 import {EMOJI, COMMENTATOR_NAMES, COMMENTS_CONTENT} from "../constants.js";
-import {getRandomItem, getRandomNumber} from "../utils";
+import {getRandomItem, getRandomNumber} from "../utils/common";
 
 export const generateRandomDate = () => {
   const start = new Date(`2020-03-20`).getTime();
