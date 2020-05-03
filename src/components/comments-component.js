@@ -1,4 +1,4 @@
-import CommentsContainerComponent from "./comment.js";
+import CommentsContainerComponent from "./comment-component.js";
 import AbstractComponent from "./abstract-component.js";
 
 const createCommentsTemplate = (comments) => {
@@ -45,7 +45,7 @@ const createCommentsTemplate = (comments) => {
   );
 };
 
-export default class Comments extends AbstractComponent {
+export default class CommentsComponent extends AbstractComponent {
   constructor(comments) {
     super();
 

@@ -1,6 +1,6 @@
 import {MONTHS} from "../constants.js";
-import CommentsComponent from "./comments.js";
-import {formatDescription, formatRunTime} from "./film.js";
+import CommentsComponent from "./comments-component.js";
+import {formatDescription, formatRunTime} from "./film-component.js";
 import AbstractComponent from "./abstract-component.js";
 
 const createFilmDetailsTemplate = (film) => {
@@ -111,7 +111,7 @@ const formatReleaseDate = (releaseDate) => {
 };
 
 
-export default class FilmDetails extends AbstractComponent {
+export default class FilmDetailsComponent extends AbstractComponent {
   constructor(film) {
     super();
 

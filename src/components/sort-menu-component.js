@@ -16,7 +16,7 @@ const createSortMenuTemplate = () => {
   );
 };
 
-export default class SortMenu extends AbstractComponent {
+export default class SortMenuComponent extends AbstractComponent {
   constructor() {
     super();
 

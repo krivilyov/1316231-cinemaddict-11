@@ -42,7 +42,7 @@ export const formatDescription = (description) => {
   return description.join(` `);
 };
 
-export default class Film extends AbstractComponent {
+export default class FilmComponent extends AbstractComponent {
   constructor(film) {
     super();
 

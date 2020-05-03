@@ -6,7 +6,7 @@ const createStatisticCounterTemplate = () => {
   );
 };
 
-export default class StatisticCounter extends AbstractComponent {
+export default class StatisticCounterComponent extends AbstractComponent {
   getTemplate() {
     return createStatisticCounterTemplate();
   }

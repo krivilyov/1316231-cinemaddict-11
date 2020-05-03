@@ -9,7 +9,7 @@ const createUserProfileTemplate = (userProfile) => {
   );
 };
 
-export default class UserProfile extends AbstractComponent {
+export default class UserProfileComponent extends AbstractComponent {
   constructor(userProfile) {
     super();
 

@@ -1,11 +1,11 @@
-import FilmComponent from "../components/film";
+import FilmComponent from "../components/film-component";
 import {remove, render, RenderPosition} from "../utils/render";
-import FilmDetailsComponent from "../components/film-details";
-import FilmsListComponent from "../components/films-list";
-import NoFilmsComponent from "../components/no-films";
+import FilmDetailsComponent from "../components/film-details-component";
+import FilmsListComponent from "../components/films-list-component";
+import NoFilmsComponent from "../components/no-films-component";
 import {BATCH_RENDER_STEP} from "../constants";
-import LoadMoreButtonComponent from "../components/load-more-button";
-import SortMenuComponent, {SortType} from "../components/sort-menu";
+import LoadMoreButtonComponent from "../components/load-more-button-component";
+import SortMenuComponent, {SortType} from "../components/sort-menu-component";
 
 const renderFilm = (filmsListContainer, film) => {
   const filmComponent = new FilmComponent(film);
@@ -22,8 +22,9 @@ const renderFilmDetails = (film) => {
   const filmDetailsCloseBtnElement = filmDetailsComponent.getElement().querySelector(`.film-details__close-btn`);
 
   filmDetailsComponent.setClickHandler(filmDetailsCloseBtnElement, () => remove(filmDetailsComponent));
+
   // слушаем Esc
-  filmDetailsComponent.setEventHandler(document, (e) => {
+  document.addEventListener(`keydown`, (e) => {
     if (e.which === 27) {
       remove(filmDetailsComponent);
     }

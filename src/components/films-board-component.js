@@ -6,7 +6,7 @@ const createFilmsBoardTemplate = () => {
   );
 };
 
-export default class FilmsBoard extends AbstractComponent {
+export default class FilmsBoardComponent extends AbstractComponent {
   getTemplate() {
     return createFilmsBoardTemplate();
   }
