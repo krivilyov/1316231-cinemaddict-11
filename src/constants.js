@@ -1,7 +1,5 @@
 export const FILMS_COUNT = 17;
-export const EXTRA_FILMS_SECTION_COUNT = 2;
-export const EXTRA_FILMS_COUNT = 2;
-export const SHOWING_FILMS_COUNT_ON_START = 5;
+export const BATCH_RENDER_STEP = 5;
 export const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
 export const USER_STATUSES = [

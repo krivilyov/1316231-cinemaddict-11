@@ -1,4 +1,5 @@
-import {getRandomItem, createElement} from "../utils";
+import {getRandomItem} from "../utils/common.js";
+import AbstractComponent from "./abstract-component.js";
 
 const createFilmTemplate = (film) => {
   const {previewImage, name, rating, releaseDate, runtime, genres, description, comments} = film;
@@ -41,26 +42,21 @@ export const formatDescription = (description) => {
   return description.join(` `);
 };
 
-export default class Film {
+export default class FilmComponent extends AbstractComponent {
   constructor(film) {
-    this._film = film;
+    super();
 
-    this._element = null;
+    this._film = film;
   }
 
   getTemplate() {
     return createFilmTemplate(this._film);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+  setClickHandler(handler) {
+    this.getElement().querySelectorAll(`img.film-card__poster, h3.film-card__title, a.film-card__comments`)
+      .forEach((elem) => {
+        elem.addEventListener(`click`, handler);
+      });
   }
 }

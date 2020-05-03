@@ -1,7 +1,7 @@
 import {MONTHS} from "../constants.js";
-import CommentsComponent from "./comments";
-import {formatDescription, formatRunTime} from "./film";
-import {createElement} from "../utils";
+import CommentsComponent from "./comments-component.js";
+import {formatDescription, formatRunTime} from "./film-component.js";
+import AbstractComponent from "./abstract-component.js";
 
 const createFilmDetailsTemplate = (film) => {
   const {fullImage, name, originalName, rating, director, writers, actors, releaseDate, runtime, country, genres, description, ratingAge, comments} = film;
@@ -107,30 +107,23 @@ const createGenresBlock = (genre) => {
 };
 
 const formatReleaseDate = (releaseDate) => {
-  return `${(`0` + releaseDate.getDate()).slice(-2)} ${MONTHS[releaseDate.getMonth() - 1]} ${releaseDate.getFullYear()}`;
+  return `${(`0` + releaseDate.getDate()).slice(-2)} ${MONTHS[releaseDate.getMonth()]} ${releaseDate.getFullYear()}`;
 };
 
 
-export default class FilmDetails {
+export default class FilmDetailsComponent extends AbstractComponent {
   constructor(film) {
-    this._film = film;
+    super();
 
-    this._element = null;
+    this._film = film;
   }
 
   getTemplate() {
     return createFilmDetailsTemplate(this._film);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+  setCloseButtonClickHandler(handler) {
+    const filmDetailsCloseBtnElement = this.getElement().querySelector(`.film-details__close-btn`);
+    filmDetailsCloseBtnElement.addEventListener(`click`, handler);
   }
 }
