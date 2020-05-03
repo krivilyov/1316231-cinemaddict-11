@@ -1,9 +1,9 @@
-import CommentsContainerComponent from "./comment-component.js";
+import CommentComponent from "./comment-component.js";
 import AbstractComponent from "./abstract-component.js";
 
 const createCommentsTemplate = (comments) => {
   const commentsList = comments
-    .map((comment) => new CommentsContainerComponent(comment).getTemplate())
+    .map((comment) => new CommentComponent(comment).getTemplate())
     .join(``);
 
   return (

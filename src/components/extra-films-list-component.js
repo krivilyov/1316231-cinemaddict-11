@@ -1,3 +1,5 @@
+import AbstractComponent from "./abstract-component";
+
 export const createExtraFilmsContainerTemplate = () => {
   return (
     `<section class="films-list--extra">
@@ -7,3 +9,9 @@ export const createExtraFilmsContainerTemplate = () => {
     </section>`
   );
 };
+
+export default class ExtraFilmsListComponent extends AbstractComponent {
+  getTemplate() {
+    return createExtraFilmsContainerTemplate();
+  }
+}

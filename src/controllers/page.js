@@ -19,9 +19,7 @@ const renderFilmDetails = (film) => {
   const siteFooterElement = document.querySelector(`.footer`);
   const filmDetailsComponent = new FilmDetailsComponent(film);
 
-  const filmDetailsCloseBtnElement = filmDetailsComponent.getElement().querySelector(`.film-details__close-btn`);
-
-  filmDetailsComponent.setClickHandler(filmDetailsCloseBtnElement, () => remove(filmDetailsComponent));
+  filmDetailsComponent.setCloseButtonClickHandler(() => remove(filmDetailsComponent));
 
   // слушаем Esc
   document.addEventListener(`keydown`, (e) => {
@@ -110,22 +108,22 @@ export default class PageController {
   }
 
   _getSortedFilms(films, sortType) {
-    let SortedFilms = [];
+    let sortedFilms = [];
     const renderedFilms = films.slice();
 
     switch (sortType) {
       case SortType.DEFAULT:
-        SortedFilms = renderedFilms;
+        sortedFilms = renderedFilms;
         break;
       case SortType.DATE:
-        SortedFilms = renderedFilms.sort((a, b) => b.releaseDate - a.releaseDate);
+        sortedFilms = renderedFilms.sort((a, b) => b.releaseDate - a.releaseDate);
         break;
       case SortType.RATING:
-        SortedFilms = renderedFilms.sort((a, b) => b.rating - a.rating);
+        sortedFilms = renderedFilms.sort((a, b) => b.rating - a.rating);
         break;
     }
 
-    return SortedFilms.slice();
+    return sortedFilms.slice();
   }
 
   _clearRenderedFilms(container) {

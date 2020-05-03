@@ -107,7 +107,7 @@ const createGenresBlock = (genre) => {
 };
 
 const formatReleaseDate = (releaseDate) => {
-  return `${(`0` + releaseDate.getDate()).slice(-2)} ${MONTHS[releaseDate.getMonth() - 1]} ${releaseDate.getFullYear()}`;
+  return `${(`0` + releaseDate.getDate()).slice(-2)} ${MONTHS[releaseDate.getMonth()]} ${releaseDate.getFullYear()}`;
 };
 
 
@@ -122,8 +122,9 @@ export default class FilmDetailsComponent extends AbstractComponent {
     return createFilmDetailsTemplate(this._film);
   }
 
-  setClickHandler(element, handler) {
-    element.addEventListener(`click`, handler);
+  setCloseButtonClickHandler(handler) {
+    const filmDetailsCloseBtnElement = this.getElement().querySelector(`.film-details__close-btn`);
+    filmDetailsCloseBtnElement.addEventListener(`click`, handler);
   }
 
   setEventHandler(element, handler) {

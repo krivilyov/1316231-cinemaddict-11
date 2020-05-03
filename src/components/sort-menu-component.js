@@ -28,7 +28,7 @@ export default class SortMenuComponent extends AbstractComponent {
     return createSortMenuTemplate();
   }
 
-  _createEventListeners(callback) {
+  _addEventListener(callback) {
     const element = this.getElement();
 
     element.addEventListener(`click`, (evt) => {
@@ -46,15 +46,14 @@ export default class SortMenuComponent extends AbstractComponent {
 
       if (this._sortType !== sortType) {
         this._sortType = sortType;
-        if (callback) {
-          callback(this._sortType);
-        }
+        callback(this._sortType);
       }
     });
   }
 
   setSortingCallback(callback) {
-    this._callback = callback;
-    this._createEventListeners(this._callback);
+    if (callback) {
+      this._addEventListener(callback);
+    }
   }
 }
