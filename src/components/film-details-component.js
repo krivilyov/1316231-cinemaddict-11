@@ -126,8 +126,4 @@ export default class FilmDetailsComponent extends AbstractComponent {
     const filmDetailsCloseBtnElement = this.getElement().querySelector(`.film-details__close-btn`);
     filmDetailsCloseBtnElement.addEventListener(`click`, handler);
   }
-
-  setEventHandler(element, handler) {
-    element.addEventListener(`keydown`, handler);
-  }
 }
