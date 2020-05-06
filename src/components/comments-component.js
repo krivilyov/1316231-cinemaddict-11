@@ -1,9 +1,9 @@
-import CommentsContainerComponent from "./comment";
-import {createElement} from "../utils";
+import CommentComponent from "./comment-component.js";
+import AbstractComponent from "./abstract-component.js";
 
 const createCommentsTemplate = (comments) => {
   const commentsList = comments
-    .map((comment) => new CommentsContainerComponent(comment).getTemplate())
+    .map((comment) => new CommentComponent(comment).getTemplate())
     .join(``);
 
   return (
@@ -45,25 +45,14 @@ const createCommentsTemplate = (comments) => {
   );
 };
 
-export default class Comments {
+export default class CommentsComponent extends AbstractComponent {
   constructor(comments) {
+    super();
+
     this._comments = comments;
-    this._element = null;
   }
 
   getTemplate() {
     return createCommentsTemplate(this._comments);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

@@ -1,5 +1,5 @@
 import {USER_STATUSES} from "../constants.js";
-import {getRandomNumber} from "../utils";
+import {getRandomNumber} from "../utils/common";
 
 const generateUserProfile = () => {
   const quantityViewedFilms = getRandomNumber(0, 100);
