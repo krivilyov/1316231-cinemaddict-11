@@ -1,13 +1,26 @@
 import {getRandomItem} from "../utils/common.js";
 import AbstractComponent from "./abstract-component.js";
 
-const createFilmTemplate = (film) => {
+const createButtonMarkup = (name, isActive) => {
+  return (
+    `<button class="film-card__controls-item button
+     film-card__controls-item--${name} ${isActive ? `film-card__controls-item--active` : ``}">
+      ${name}
+     </button>`
+  );
+};
+
+const createFilmCartTemplate = (film) => {
   const {previewImage, name, rating, releaseDate, runtime, genres, description, comments} = film;
 
   const formattedRunTime = formatRunTime(runtime);
   const formattedGenres = getRandomItem(genres);
   const formattedReleaseDate = formatReleaseDate(releaseDate);
   const formattedDescription = formatDescription(description);
+
+  const watchlistButton = createButtonMarkup(`add-to-watchlist`, film.isWatchlist);
+  const watchedButton = createButtonMarkup(`mark-as-watched`, film.isWatched);
+  const favoriteButton = createButtonMarkup(`favorite`, film.isFavorite);
 
   return (
     `<article class="film-card">
@@ -22,9 +35,9 @@ const createFilmTemplate = (film) => {
           <p class="film-card__description">${formattedDescription.substr(0, 137)}...</p>
           <a class="film-card__comments">${comments.length} comments</a>
           <form class="film-card__controls">
-            <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist">Add to watchlist</button>
-            <button class="film-card__controls-item button film-card__controls-item--mark-as-watched">Mark as watched</button>
-            <button class="film-card__controls-item button film-card__controls-item--favorite">Mark as favorite</button>
+            ${watchlistButton}
+            ${watchedButton}
+            ${favoriteButton}
           </form>
     </article>`
   );
@@ -42,7 +55,7 @@ export const formatDescription = (description) => {
   return description.join(` `);
 };
 
-export default class FilmComponent extends AbstractComponent {
+export default class FilmCardComponent extends AbstractComponent {
   constructor(film) {
     super();
 
@@ -50,7 +63,7 @@ export default class FilmComponent extends AbstractComponent {
   }
 
   getTemplate() {
-    return createFilmTemplate(this._film);
+    return createFilmCartTemplate(this._film);
   }
 
   setClickHandler(handler) {
@@ -58,5 +71,23 @@ export default class FilmComponent extends AbstractComponent {
       .forEach((elem) => {
         elem.addEventListener(`click`, handler);
       });
+  }
+
+  setWatchListButtonClickHandler(handler) {
+    this.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`)
+      .addEventListener(`click`, handler);
+    this._setWatchListHandler = handler;
+  }
+
+  setWatchedButtonClickHandler(handler) {
+    this.getElement().querySelector(`.film-card__controls-item--mark-as-watched`)
+      .addEventListener(`click`, handler);
+    this._setWatchedHandler = handler;
+  }
+
+  setFavoriteButtonClickHandler(handler) {
+    this.getElement().querySelector(`.film-card__controls-item--favorite`)
+      .addEventListener(`click`, handler);
+    this._setFavorite = handler;
   }
 }

@@ -1,47 +1,25 @@
-import FilmComponent from "../components/film-component";
 import {remove, render, RenderPosition} from "../utils/render";
-import FilmDetailsComponent from "../components/film-details-component";
 import FilmsListComponent from "../components/films-list-component";
 import NoFilmsComponent from "../components/no-films-component";
 import {BATCH_RENDER_STEP} from "../constants";
 import LoadMoreButtonComponent from "../components/load-more-button-component";
 import SortMenuComponent, {SortType} from "../components/sort-menu-component";
-
-const renderFilm = (filmsListContainer, film) => {
-  const filmComponent = new FilmComponent(film);
-
-  filmComponent.setClickHandler(() => renderFilmDetails(film));
-
-  render(filmsListContainer, filmComponent);
-};
-
-const renderFilmDetails = (film) => {
-  const siteFooterElement = document.querySelector(`.footer`);
-  const filmDetailsComponent = new FilmDetailsComponent(film);
-
-  filmDetailsComponent.setCloseButtonClickHandler(() => remove(filmDetailsComponent));
-
-  // слушаем Esc
-  document.addEventListener(`keydown`, (e) => {
-    if (e.which === 27) {
-      remove(filmDetailsComponent);
-    }
-  });
-
-  render(siteFooterElement, filmDetailsComponent, RenderPosition.AFTERBEGIN);
-};
+import MovieController from "./movie";
 
 export default class PageController {
   constructor(container) {
     this._container = container;
     this._renderedFilms = 0;
+    this._films = [];
     this._sortMenuComponent = new SortMenuComponent();
     this._noFilmsComponent = new NoFilmsComponent();
     this._loadMoreButtonComponent = new LoadMoreButtonComponent();
+    this._onDataChange = this._onDataChange.bind(this);
   }
 
   render(films) {
     const container = this._container.getElement();
+    this._films = films;
     render(container, this._sortMenuComponent, RenderPosition.BEFOREBEGIN);
 
     if (films.length === 0) {
@@ -75,15 +53,14 @@ export default class PageController {
       return;
     }
 
-    const containerElement = filmsElement.querySelector(`.films-list__container`);
-
     const from = this._renderedFilms;
     const to = from + BATCH_RENDER_STEP;
 
     films
       .slice(from, to)
       .forEach((film) => {
-        renderFilm(containerElement, film);
+        const movieController = new MovieController(filmsElement, this._onDataChange);
+        movieController.render(film);
       });
 
     this._renderedFilms = Math.min(to, films.length);
@@ -131,5 +108,17 @@ export default class PageController {
     filmsContainer.innerHTML = ``;
     this._renderedFilms = 0;
     remove(this._loadMoreButtonComponent);
+  }
+
+  _onDataChange(movieController, oldData, newData) {
+    const index = this._films.findIndex((it) => it === oldData);
+
+    if (index === -1) {
+      return;
+    }
+
+    this._films = [].concat(this._films.slice(0, index), newData, this._films.slice(index + 1));
+
+    movieController.render(this._films[index]);
   }
 }
