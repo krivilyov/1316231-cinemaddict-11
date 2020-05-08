@@ -1,6 +1,5 @@
 export const FILMS_COUNT = 17;
 export const BATCH_RENDER_STEP = 5;
-export const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
 export const USER_STATUSES = [
   {name: ``, value: 0},
@@ -54,21 +53,6 @@ export const ACTORS = [
   `Erich von Stroheim`,
   `Mary Beth Hughes`,
   `Dan Duryea`,
-];
-
-export const MONTHS = [
-  `January`,
-  `February`,
-  `March`,
-  `April`,
-  `May`,
-  `June`,
-  `July`,
-  `August`,
-  `September`,
-  `October`,
-  `November`,
-  `December`,
 ];
 
 export const COUNTRIES = [

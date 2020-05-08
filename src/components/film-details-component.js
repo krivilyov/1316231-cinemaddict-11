@@ -1,4 +1,3 @@
-import {MONTHS} from "../constants.js";
 import CommentsComponent from "./comments-component.js";
 import {formatDescription, formatRunTime} from "./film-card-component.js";
 import AbstractComponent from "./abstract-component.js";
@@ -6,13 +5,16 @@ import AbstractComponent from "./abstract-component.js";
 const createFilmDetailsTemplate = (film) => {
   const {fullImage, name, originalName, rating, director, writers, actors, releaseDate, runtime, country, genres, description, ratingAge, comments} = film;
 
+  // plugin moment
+  const moment = require(`moment`);
+
   const commentsTemplate = new CommentsComponent(comments).getTemplate();
   const formattedRunTime = formatRunTime(runtime);
   const genreBlock = genres
     .map((genre) => createGenresBlock(genre))
     .join(``);
 
-  const formattedReleaseDate = formatReleaseDate(releaseDate);
+  const formattedReleaseDate = moment(releaseDate).format(`DD MMMM YYYY`);
   const formattedDescription = formatDescription(description);
 
   return (
@@ -105,11 +107,6 @@ const createFilmDetailsTemplate = (film) => {
 const createGenresBlock = (genre) => {
   return `<span class="film-details__genre">${genre}</span>`;
 };
-
-const formatReleaseDate = (releaseDate) => {
-  return `${(`0` + releaseDate.getDate()).slice(-2)} ${MONTHS[releaseDate.getMonth()]} ${releaseDate.getFullYear()}`;
-};
-
 
 export default class FilmDetailsComponent extends AbstractComponent {
   constructor(film) {
