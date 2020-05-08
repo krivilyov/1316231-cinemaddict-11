@@ -13,9 +13,12 @@ const createButtonMarkup = (name, isActive) => {
 const createFilmCartTemplate = (film) => {
   const {previewImage, name, rating, releaseDate, runtime, genres, description, comments} = film;
 
+  // plugin moment
+  const moment = require(`moment`);
+
   const formattedRunTime = formatRunTime(runtime);
   const formattedGenres = getRandomItem(genres);
-  const formattedReleaseDate = formatReleaseDate(releaseDate);
+  const formattedReleaseDate = moment(releaseDate).format(`YYYY`);
   const formattedDescription = formatDescription(description);
 
   const watchlistButton = createButtonMarkup(`add-to-watchlist`, film.isWatchlist);
@@ -45,10 +48,6 @@ const createFilmCartTemplate = (film) => {
 
 export const formatRunTime = (runtime) => {
   return `${runtime.hour}h ${runtime.minutes}m`;
-};
-
-const formatReleaseDate = (releaseDate) => {
-  return `${releaseDate.getFullYear()}`;
 };
 
 export const formatDescription = (description) => {

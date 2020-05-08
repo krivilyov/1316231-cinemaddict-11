@@ -23,6 +23,8 @@ const createCommentsContainer = (comment) => {
 };
 
 const formatDate = (date) => {
+  // plugin moment
+  const moment = require(`moment`);
   const currentDate = new Date();
   let newDate;
 
@@ -30,7 +32,7 @@ const formatDate = (date) => {
   const quantityDays = Math.round(((currentDate.getTime() - date.getTime()) / 86400000));
 
   if (quantityDays > 7) {
-    newDate = `${date.getFullYear()}/${(date.getMonth() + 1)}/${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
+    newDate = moment(date).format(`YYYY/MM/DD HH:mm`);
   } else if (quantityDays > 1) {
     newDate = `${quantityDays} days ago`;
   } else {
