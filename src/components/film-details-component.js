@@ -1,6 +1,6 @@
 import {MONTHS} from "../constants.js";
 import CommentsComponent from "./comments-component.js";
-import {formatDescription, formatRunTime} from "./film-component.js";
+import {formatDescription, formatRunTime} from "./film-card-component.js";
 import AbstractComponent from "./abstract-component.js";
 
 const createFilmDetailsTemplate = (film) => {
@@ -81,13 +81,13 @@ const createFilmDetailsTemplate = (film) => {
           </div>
 
           <section class="film-details__controls">
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${film.isWatchlist ? `checked` : ``}>
             <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${film.isWatched ? `checked` : ``}>
             <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${film.isFavorite ? `checked` : ``}>
             <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
           </section>
         </div>
@@ -125,5 +125,23 @@ export default class FilmDetailsComponent extends AbstractComponent {
   setCloseButtonClickHandler(handler) {
     const filmDetailsCloseBtnElement = this.getElement().querySelector(`.film-details__close-btn`);
     filmDetailsCloseBtnElement.addEventListener(`click`, handler);
+  }
+
+  setWatchListButtonClickHandler(handler) {
+    this.getElement().querySelector(`#watchlist`)
+      .addEventListener(`click`, handler);
+    this._setWatchListHandler = handler;
+  }
+
+  setWatchedButtonClickHandler(handler) {
+    this.getElement().querySelector(`#watched`)
+      .addEventListener(`click`, handler);
+    this._setWatchedHandler = handler;
+  }
+
+  setFavoriteButtonClickHandler(handler) {
+    this.getElement().querySelector(`#favorite`)
+      .addEventListener(`click`, handler);
+    this._setFavorite = handler;
   }
 }
