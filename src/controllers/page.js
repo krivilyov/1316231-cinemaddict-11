@@ -11,10 +11,12 @@ export default class PageController {
     this._container = container;
     this._renderedFilms = 0;
     this._films = [];
+    this._showedFilmControllers = [];
     this._sortMenuComponent = new SortMenuComponent();
     this._noFilmsComponent = new NoFilmsComponent();
     this._loadMoreButtonComponent = new LoadMoreButtonComponent();
     this._onDataChange = this._onDataChange.bind(this);
+    this._onViewChange = this._onViewChange.bind(this);
   }
 
   render(films) {
@@ -59,8 +61,10 @@ export default class PageController {
     films
       .slice(from, to)
       .forEach((film) => {
-        const movieController = new MovieController(filmsElement, this._onDataChange);
+        const movieController = new MovieController(filmsElement, this._onDataChange, this._onViewChange);
         movieController.render(film);
+
+        this._showedFilmControllers = this._showedFilmControllers.concat(movieController);
       });
 
     this._renderedFilms = Math.min(to, films.length);
@@ -120,5 +124,9 @@ export default class PageController {
     this._films = [].concat(this._films.slice(0, index), newData, this._films.slice(index + 1));
 
     movieController.render(this._films[index]);
+  }
+
+  _onViewChange() {
+    this._showedFilmControllers.forEach((it) => it._setDefaultView());
   }
 }
