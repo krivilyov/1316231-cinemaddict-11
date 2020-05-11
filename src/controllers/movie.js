@@ -80,7 +80,7 @@ export default class MovieController {
     return (evt) => {
       evt.preventDefault();
 
-      this._onDataChange(this, film, Object.assign({}, film, changedData));
+      this._onDataChange(this, film.id, Object.assign({}, film, changedData));
     };
   }
 

@@ -7,10 +7,11 @@ import SortMenuComponent, {SortType} from "../components/sort-menu-component";
 import MovieController from "./movie";
 
 export default class PageController {
-  constructor(container) {
+  constructor(container, movies) {
     this._container = container;
     this._renderedFilms = 0;
     this._films = [];
+    this._movies = movies;
     this._showedFilmControllers = [];
     this._sortMenuComponent = new SortMenuComponent();
     this._noFilmsComponent = new NoFilmsComponent();
@@ -19,12 +20,12 @@ export default class PageController {
     this._onViewChange = this._onViewChange.bind(this);
   }
 
-  render(films) {
+  render() {
     const container = this._container.getElement();
-    this._films = films;
+    this._films = this._movies.getFilms();
     render(container, this._sortMenuComponent, RenderPosition.BEFOREBEGIN);
 
-    if (films.length === 0) {
+    if (this._films.length === 0) {
       render(container, this._noFilmsComponent);
       return;
     }
@@ -33,10 +34,10 @@ export default class PageController {
     render(container, filmsComponent);
 
     const filmsElement = filmsComponent.getElement();
-    this._renderFilms(filmsElement, films);
+    this._renderFilms(filmsElement, this._films);
 
     this._sortMenuComponent.setSortingCallback((sortType) => {
-      const sortedFilms = this._getSortedFilms(films, sortType);
+      const sortedFilms = this._getSortedFilms(this._films, sortType);
       this._clearRenderedFilms(container);
       this._renderFilms(filmsElement, sortedFilms);
     });
@@ -114,16 +115,11 @@ export default class PageController {
     remove(this._loadMoreButtonComponent);
   }
 
-  _onDataChange(movieController, oldData, newData) {
-    const index = this._films.findIndex((it) => it === oldData);
+  _onDataChange(movieController, id, newData) {
+    this._movies.updateFilm(id, newData);
+    this._films = this._movies.getFilms();
 
-    if (index === -1) {
-      return;
-    }
-
-    this._films = [].concat(this._films.slice(0, index), newData, this._films.slice(index + 1));
-
-    movieController.render(this._films[index]);
+    movieController.render(this._films[id]);
   }
 
   _onViewChange() {
