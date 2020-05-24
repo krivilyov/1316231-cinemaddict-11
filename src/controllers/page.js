@@ -16,13 +16,18 @@ export default class PageController {
     this._sortMenuComponent = new SortMenuComponent();
     this._noFilmsComponent = new NoFilmsComponent();
     this._loadMoreButtonComponent = new LoadMoreButtonComponent();
+    this._filmsComponent = new FilmsListComponent();
     this._onDataChange = this._onDataChange.bind(this);
     this._onViewChange = this._onViewChange.bind(this);
+
+    this._onFilterChange = this._onFilterChange.bind(this);
+    this._movies.setFilterChangeHandlers(this._onFilterChange);
   }
 
   render() {
     const container = this._container.getElement();
-    this._films = this._movies.getFilms();
+    this._films = this._movies.getFilteredFilms();
+
     render(container, this._sortMenuComponent, RenderPosition.BEFOREBEGIN);
 
     if (this._films.length === 0) {
@@ -30,7 +35,8 @@ export default class PageController {
       return;
     }
 
-    const filmsComponent = new FilmsListComponent();
+    const filmsComponent = this._filmsComponent;
+
     render(container, filmsComponent);
 
     const filmsElement = filmsComponent.getElement();
@@ -124,5 +130,18 @@ export default class PageController {
 
   _onViewChange() {
     this._showedFilmControllers.forEach((it) => it._setDefaultView());
+  }
+
+  _onFilterChange() {
+    // сбрасываем меню сортировки
+    this._sortMenuComponent.clearSortMenu();
+
+    const container = this._container.getElement();
+    this._films = this._movies.getFilteredFilms();
+    const filmsComponent = this._filmsComponent;
+
+    const filmsElement = filmsComponent.getElement();
+    this._clearRenderedFilms(container);
+    this._renderFilms(filmsElement, this._films);
   }
 }

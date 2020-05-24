@@ -30,8 +30,8 @@ export default class MovieController {
     if (!oldFilmComponent && !oldFilmDetailsComponent) {
       render(containerElement, this._filmComponent);
     } else {
-      replace(this._filmComponent, oldFilmComponent);
-      replace(this._filmDetailsComponent, oldFilmDetailsComponent);
+      replace(oldFilmComponent.getElement().parentNode, this._filmComponent.getElement(), oldFilmComponent.getElement());
+      replace(oldFilmDetailsComponent.getElement().parentNode, this._filmDetailsComponent.getElement(), oldFilmDetailsComponent.getElement());
       this._createFilmDetailsHandlers(film);
     }
   }

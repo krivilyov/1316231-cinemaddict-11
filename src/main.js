@@ -24,7 +24,7 @@ render(siteHeaderElement, new UserProfileComponent(userProfile));
 const menuComponent = new MenuComponent();
 const filterController = new FilterController(menuComponent.getElement(), movies);
 render(siteMainElement, menuComponent);
-filterController.onLoading();
+filterController.render();
 
 const boardComponent = new FilmsBoardComponent();
 render(siteMainElement, boardComponent);
