@@ -19,14 +19,19 @@ export default class MovieController {
     this._filmComponent = new FilmCardComponent(film);
     this._createCardDataChangeHandlers(film);
 
+    const siteFooterElement = document.querySelector(`.footer`);
     this._filmDetailsComponent = new FilmDetailsComponent(film);
-    this._createFilmDetailsHandlers(film);
+    this._filmComponent.setClickHandler(() => {
+      this._onViewChange();
+      this._createFilmDetailsHandlers(film);
+      render(siteFooterElement, this._filmDetailsComponent, RenderPosition.AFTERBEGIN);
+    });
 
     if (!oldFilmComponent && !oldFilmDetailsComponent) {
       render(containerElement, this._filmComponent);
     } else {
-      replace(this._filmComponent, oldFilmComponent);
-      replace(this._filmDetailsComponent, oldFilmDetailsComponent);
+      replace(oldFilmComponent.getElement().parentNode, this._filmComponent.getElement(), oldFilmComponent.getElement());
+      replace(oldFilmDetailsComponent.getElement().parentNode, this._filmDetailsComponent.getElement(), oldFilmDetailsComponent.getElement());
       this._createFilmDetailsHandlers(film);
     }
   }
@@ -63,12 +68,6 @@ export default class MovieController {
     this._filmDetailsComponent.setFavoriteButtonClickHandler(favoriteButtonClickHandler);
     this._filmDetailsComponent.setCloseButtonClickHandler(() => remove(this._filmDetailsComponent));
 
-    const siteFooterElement = document.querySelector(`.footer`);
-    this._filmComponent.setClickHandler(() => {
-      this._onViewChange();
-      render(siteFooterElement, this._filmDetailsComponent, RenderPosition.AFTERBEGIN);
-    });
-
     // слушаем Esc
     document.addEventListener(`keydown`, (e) => {
       if (e.which === 27) {
@@ -81,7 +80,7 @@ export default class MovieController {
     return (evt) => {
       evt.preventDefault();
 
-      this._onDataChange(this, film, Object.assign({}, film, changedData));
+      this._onDataChange(this, film.id, Object.assign({}, film, changedData));
     };
   }
 

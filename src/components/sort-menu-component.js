@@ -56,4 +56,13 @@ export default class SortMenuComponent extends AbstractComponent {
       this._addEventListener(callback);
     }
   }
+
+  clearSortMenu() {
+    const activeButton = this.getElement().querySelector(`.sort__button--active`);
+    activeButton.classList.remove(`sort__button--active`);
+    // накидываем active на первый элемент
+    this.getElement().querySelector(`.sort__button`).classList.add(`sort__button--active`);
+    // сбрасываем сортировку
+    this._sortType = SortType.DEFAULT;
+  }
 }

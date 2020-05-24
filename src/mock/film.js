@@ -21,10 +21,11 @@ const generateTime = () => {
   };
 };
 
-const generateFilm = () => {
+const generateFilm = (currentElement, index) => {
   const key = getRandomNumber(0, 6);
 
   return {
+    id: index,
     previewImage: generatePreviewImage(key),
     fullImage: generatePreviewImage(key),
     name: generateName(key),
