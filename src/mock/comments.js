@@ -9,8 +9,9 @@ export const generateRandomDate = () => {
   return randomDate;
 };
 
-const generateComment = () => {
+const generateComment = (currentElement, index) => {
   return {
+    id: index,
     date: generateRandomDate(),
     emoji: getRandomItem(EMOJI),
     authorName: getRandomItem(COMMENTATOR_NAMES),
