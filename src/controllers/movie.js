@@ -12,6 +12,8 @@ export default class MovieController {
     this._onDataChange = onDataChange;
     this._onViewChange = onViewChange;
     this._onFilmClick = this._onFilmClick.bind(this);
+    this._onCommentClick = this._onCommentClick.bind(this);
+    this._comments = new Comments();
   }
 
   render(film) {
@@ -20,7 +22,7 @@ export default class MovieController {
     const oldFilmDetailsComponent = this._filmDetailsComponent;
     const container = this._container;
     const containerElement = container.querySelector(`.films-list__container`);
-    this._comments = new Comments();
+
     this._comments.setComments(generateComments());
 
     this._filmComponent = new FilmCardComponent(this._film, this._comments);
@@ -28,14 +30,6 @@ export default class MovieController {
 
     this._filmComponent.setClickHandler(this._onFilmClick);
 
-
-    // this._filmDetailsComponent = new FilmDetailsComponent(film, this._comments);
-    // this._filmComponent.setClickHandler(() => {
-    //   this._filmDetailsComponent = new FilmDetailsComponent(film, this._comments);
-    //   this._onViewChange();
-    //   this._createFilmDetailsHandlers(film);
-    //   render(siteFooterElement, this._filmDetailsComponent, RenderPosition.AFTERBEGIN);
-    // });
     if (!oldFilmComponent) {
       render(containerElement, this._filmComponent);
     } else {
@@ -47,17 +41,6 @@ export default class MovieController {
         this._createFilmDetailsHandlers(this._film);
       }
     }
-
-
-    // console.log(oldFilmDetailsComponent);
-    // if (!oldFilmComponent && !oldFilmDetailsComponent) {
-    //   render(containerElement, this._filmComponent);
-    // } else {
-    //
-    //
-    //   replace(oldFilmDetailsComponent.getElement().parentNode, this._filmDetailsComponent.getElement(), oldFilmDetailsComponent.getElement());
-    //   // this._createFilmDetailsHandlers(this._film);
-    // }
   }
 
   _onFilmClick() {

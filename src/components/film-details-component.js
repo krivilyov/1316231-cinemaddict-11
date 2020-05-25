@@ -1,12 +1,11 @@
-// import CommentsComponent from "./comments-component.js";
 import {formatDescription, formatRunTime} from "./film-card-component.js";
-import AbstractComponent from "./abstract-component.js";
+import SmartAbstractComponent from "./smart-abstract-component";
 import CommentComponent from "./comment-component";
 
 const createFilmDetailsTemplate = (film, comments) => {
   const {fullImage, name, originalName, rating, director, writers, actors, releaseDate, runtime, country, genres, description, ratingAge} = film;
   const commentsCount = comments.length;
-  // console.log(comments);
+
   // plugin moment
   const moment = require(`moment`);
 
@@ -144,23 +143,25 @@ const createGenresBlock = (genre) => {
   return `<span class="film-details__genre">${genre}</span>`;
 };
 
-export default class FilmDetailsComponent extends AbstractComponent {
+export default class FilmDetailsComponent extends SmartAbstractComponent {
   constructor(film, comments) {
     super();
 
     this._film = film;
     this._emotion = null;
-    this._comments = comments.getComments();
+    this._comments = comments;
     this._deletingButtonId = null;
+    this._setRemoveCommentClickHandler = null;
   }
 
   getTemplate() {
-    return createFilmDetailsTemplate(this._film, this._comments);
+    return createFilmDetailsTemplate(this._film, this._comments.getComments());
   }
 
   setCloseButtonClickHandler(handler) {
     const filmDetailsCloseBtnElement = this.getElement().querySelector(`.film-details__close-btn`);
     filmDetailsCloseBtnElement.addEventListener(`click`, handler);
+    this._setCloseBtnHandler = handler;
   }
 
   setWatchListButtonClickHandler(handler) {
@@ -199,7 +200,23 @@ export default class FilmDetailsComponent extends AbstractComponent {
   setDeletingButton(id) {
     this._deletingButtonId = id;
 
-    // перерисовать подробнее
+    // удаляем коммент по id
+    this._comments.setRemoveComment(id);
+
+    this.reRender();
+  }
+
+  reRender() {
+    super.reRender();
+  }
+
+  recoveryListeners() {
+    // пеервешиваем эвенты
+    this.setRemoveCommentClickHandler(this._setRemoveCommentClickHandler);
+    this.setCloseButtonClickHandler(this._setCloseBtnHandler);
+    this.setWatchListButtonClickHandler(this._setWatchListHandler);
+    this.setWatchedButtonClickHandler(this._setWatchedHandler);
+    this.setFavoriteButtonClickHandler(this._setFavorite);
   }
 }
 
