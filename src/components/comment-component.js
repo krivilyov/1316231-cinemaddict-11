@@ -1,12 +1,12 @@
 import AbstractComponent from "./abstract-component.js";
 
 const createCommentsContainer = (comment) => {
-  const {date, emoji, authorName, content} = comment;
+  const {id, date, emoji, authorName, content} = comment;
 
   const formattedDate = formatDate(date);
 
   return (
-    `<li class="film-details__comment">
+    `<li data-id="${id}" class="film-details__comment">
       <span class="film-details__comment-emoji">
         <img src="${emoji}" width="55" height="55" alt="emoji-smile">
       </span>
@@ -15,7 +15,7 @@ const createCommentsContainer = (comment) => {
         <p class="film-details__comment-info">
           <span class="film-details__comment-author">${authorName}</span>
           <span class="film-details__comment-day">${formattedDate}</span>
-          <button class="film-details__comment-delete">Delete</button>
+          <button data-id="${id}" class="film-details__comment-delete">Delete</button>
         </p>
       </div>
     </li>`
