@@ -14,6 +14,7 @@ export default class MovieController {
     this._onFilmClick = this._onFilmClick.bind(this);
     this._onCommentClick = this._onCommentClick.bind(this);
     this._comments = new Comments();
+    this._isCommentsChanged = false;
   }
 
   render(film) {
@@ -85,6 +86,11 @@ export default class MovieController {
 
     // удаление комментария
     this._filmDetailsComponent.setRemoveCommentClickHandler(this._onCommentClick);
+    this._filmDetailsComponent.setNewCommentSubmitHandler((newComment) => {
+      this._filmDetailsComponent.disable();
+
+      this._onCommentChange(null, newComment);
+    });
 
     // слушаем Esc
     document.addEventListener(`keydown`, (e) => {
@@ -114,5 +120,16 @@ export default class MovieController {
 
   _onCommentClick(commentId) {
     this._filmDetailsComponent.setDeletingButton(commentId);
+  }
+
+  _onCommentChange(oldCommentId, newComment) {
+    this._isCommentsChanged = true;
+
+    if (newComment === null) {
+      // тут будет условия при api
+    } else if (oldCommentId === null) {
+      this._filmDetailsComponent.enable();
+      this._comments.addComment(newComment);
+    }
   }
 }

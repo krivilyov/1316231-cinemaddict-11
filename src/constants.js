@@ -71,11 +71,11 @@ export const GENRES = [
   `Mystery`,
 ];
 
-export const EMOJI = [
-  `./images/emoji/angry.png`,
-  `./images/emoji/puke.png`,
-  `./images/emoji/sleeping.png`,
-  `./images/emoji/smile.png`,
+export const EMOTIONS = [
+  `smile`,
+  `sleeping`,
+  `puke`,
+  `angry`,
 ];
 
 export const COMMENTATOR_NAMES = [

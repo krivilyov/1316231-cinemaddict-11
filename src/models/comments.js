@@ -32,6 +32,12 @@ export default class Comments {
     this._dataChangeHandlers.push(handler);
   }
 
+  addComment(comment) {
+    this._comments = [].concat(this._comments, comment.getComment());
+
+    this._callHandlers(this._dataChangeHandlers);
+  }
+
   _callHandlers(handlers) {
     handlers.forEach((handler) => handler());
   }

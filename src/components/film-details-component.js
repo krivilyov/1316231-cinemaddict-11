@@ -1,9 +1,39 @@
 import {formatDescription, formatRunTime} from "./film-card-component.js";
 import SmartAbstractComponent from "./smart-abstract-component";
 import CommentComponent from "./comment-component";
+import {EMOTIONS, COMMENTATOR_NAMES} from "../constants";
+import Comment from "../models/comment";
+import {getRandomItem} from "../utils/common";
 
-const createFilmDetailsTemplate = (film, comments) => {
+const commentsList = (comments) => {
+  return comments
+    .map((comment) => new CommentComponent(comment).getTemplate())
+    .join(``);
+};
+
+const createEmojiMarkup = (emotion, isEmojiChecked) => {
+  return (
+    `<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emotion}" value="smile" ${isEmojiChecked ? `checked` : ``}>
+    <label class="film-details__emoji-label" for="emoji-${emotion}">
+      <img src="./images/emoji/${emotion}.png" width="30" height="30" alt="emoji">
+    </label>`
+  );
+};
+
+const createEmojiTemplate = (checkedEmotion) => {
+  return EMOTIONS.map((it) => createEmojiMarkup(it, it === checkedEmotion)).join(``);
+};
+
+const createEmojiImageMarkup = (emotion) => {
+  const newMarkUp = `<img src="images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}"></img>`;
+  const markUp = emotion ? newMarkUp : ``;
+
+  return markUp;
+};
+
+const createFilmDetailsTemplate = (film, comments, options = {}) => {
   const {fullImage, name, originalName, rating, director, writers, actors, releaseDate, runtime, country, genres, description, ratingAge} = film;
+  const {emotion, message} = options;
   const commentsCount = comments.length;
 
   // plugin moment
@@ -100,36 +130,20 @@ const createFilmDetailsTemplate = (film, comments) => {
             <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentsCount}</span></h3>
 
             <ul class="film-details__comments-list">
-                   ${commentsList(comments)}
+                ${commentsList(comments)}
             </ul>
 
             <div class="film-details__new-comment">
-              <div for="add-emoji" class="film-details__add-emoji-label"></div>
+              <div for="add-emoji" class="film-details__add-emoji-label">
+                ${createEmojiImageMarkup(emotion)}
+              </div>
 
               <label class="film-details__comment-label">
-                <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
+                <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${message ? message : ``}</textarea>
               </label>
 
               <div class="film-details__emoji-list">
-                <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile">
-                <label class="film-details__emoji-label" for="emoji-smile">
-                  <img src="./images/emoji/smile.png" width="30" height="30" alt="emoji">
-                </label>
-
-                <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-sleeping" value="sleeping">
-                <label class="film-details__emoji-label" for="emoji-sleeping">
-                  <img src="./images/emoji/sleeping.png" width="30" height="30" alt="emoji">
-                </label>
-
-                <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-puke" value="puke">
-                <label class="film-details__emoji-label" for="emoji-puke">
-                  <img src="./images/emoji/puke.png" width="30" height="30" alt="emoji">
-                </label>
-
-                <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-angry" value="angry">
-                <label class="film-details__emoji-label" for="emoji-angry">
-                  <img src="./images/emoji/angry.png" width="30" height="30" alt="emoji">
-                </label>
+                ${createEmojiTemplate(emotion)}
               </div>
             </div>
           </section>
@@ -150,12 +164,21 @@ export default class FilmDetailsComponent extends SmartAbstractComponent {
     this._film = film;
     this._emotion = null;
     this._comments = comments;
+    this._newCommentMessage = null;
     this._deletingButtonId = null;
     this._setRemoveCommentClickHandler = null;
+    this._setNewCommentSubmitHandler = null;
+    this.setEmotionClickHandler();
+    this._onCommentsChange = this._onCommentsChange.bind(this);
+
+    this._comments.setDataChangeHandler(this._onCommentsChange);
   }
 
   getTemplate() {
-    return createFilmDetailsTemplate(this._film, this._comments.getComments());
+    return createFilmDetailsTemplate(this._film, this._comments.getComments(), {
+      emotion: this._emotion,
+      message: this._newCommentMessage,
+    });
   }
 
   setCloseButtonClickHandler(handler) {
@@ -206,6 +229,66 @@ export default class FilmDetailsComponent extends SmartAbstractComponent {
     this.reRender();
   }
 
+  setNewCommentSubmitHandler(handler) {
+    this.getElement()
+      .querySelector(`.film-details__comment-input`)
+      .addEventListener(`input`, (evt) => {
+        this._newCommentMessage = evt.target.value;
+      });
+
+    this.getElement()
+      .querySelector(`.film-details__comment-input`)
+      .addEventListener(`keydown`, (evt) => {
+        if (evt.keyCode === 13 && (evt.ctrlKey || evt.metaKey)) {
+          if (this._emotion && this._newCommentMessage) {
+
+            const newCommentData = this._createNewComment(this._newCommentMessage, this._emotion);
+
+            const newComment = new Comment(newCommentData);
+            handler(newComment);
+          }
+        }
+      });
+
+    this._setNewCommentSubmitHandler = handler;
+  }
+
+  setEmotionClickHandler() {
+    Array.from(this.getElement()
+      .querySelectorAll(`.film-details__emoji-label`))
+      .forEach((emojiLabel) => {
+        emojiLabel.addEventListener(`click`, (evt) => {
+          evt.preventDefault();
+
+          const emotion = emojiLabel.getAttribute(`for`).substring(`emoji-`.length);
+
+          createEmojiImageMarkup(emotion);
+          this._emotion = emotion;
+
+          this.reRender();
+
+          const inputField = this.getElement().querySelector(`.film-details__comment-input`);
+          inputField.focus();
+          inputField.selectionStart = inputField.value.length;
+        });
+      });
+  }
+
+  _createNewComment(message, emotion) {
+    // кол-во элементов лдя присвоения ключа
+    const currentCommentId = this._comments.getComments().length;
+    // случайный автор
+    const currentRandomAuthor = getRandomItem(COMMENTATOR_NAMES);
+
+    return {
+      id: currentCommentId,
+      date: new Date(),
+      emotion,
+      authorName: currentRandomAuthor,
+      message,
+    };
+  }
+
   reRender() {
     super.reRender();
   }
@@ -217,11 +300,27 @@ export default class FilmDetailsComponent extends SmartAbstractComponent {
     this.setWatchListButtonClickHandler(this._setWatchListHandler);
     this.setWatchedButtonClickHandler(this._setWatchedHandler);
     this.setFavoriteButtonClickHandler(this._setFavorite);
+    this.setNewCommentSubmitHandler(this._setNewCommentSubmitHandler);
+    this.setEmotionClickHandler();
+  }
+
+  disable() {
+    this.getElement().querySelector(`.film-details__inner`).setAttribute(`disabled`, `disabled`);
+    this.getElement().querySelector(`.film-details__comment-input`).setAttribute(`disabled`, `disabled`);
+  }
+
+  enable() {
+    this.getElement().querySelector(`.film-details__inner`).removeAttribute(`disabled`);
+    this.getElement().querySelector(`.film-details__comment-input`).removeAttribute(`disabled`);
+  }
+
+  _clearNewComment() {
+    this._emotion = null;
+    this._newCommentMessage = null;
+  }
+
+  _onCommentsChange() {
+    this._clearNewComment();
+    this.reRender();
   }
 }
-
-const commentsList = (comments) => {
-  return comments
-    .map((comment) => new CommentComponent(comment).getTemplate())
-    .join(``);
-};
