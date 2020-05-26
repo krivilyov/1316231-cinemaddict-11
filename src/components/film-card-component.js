@@ -10,9 +10,9 @@ const createButtonMarkup = (name, isActive) => {
   );
 };
 
-const createFilmCartTemplate = (film) => {
-  const {previewImage, name, rating, releaseDate, runtime, genres, description, comments} = film;
-
+const createFilmCartTemplate = (film, comments) => {
+  const {previewImage, name, rating, releaseDate, runtime, genres, description} = film;
+  const commentsCount = comments.length;
   // plugin moment
   const moment = require(`moment`);
 
@@ -36,7 +36,7 @@ const createFilmCartTemplate = (film) => {
           </p>
           <img src="${previewImage}" alt="" class="film-card__poster">
           <p class="film-card__description">${formattedDescription.substr(0, 137)}...</p>
-          <a class="film-card__comments">${comments.length} comments</a>
+          <a class="film-card__comments">${commentsCount} comments</a>
           <form class="film-card__controls">
             ${watchlistButton}
             ${watchedButton}
@@ -55,14 +55,15 @@ export const formatDescription = (description) => {
 };
 
 export default class FilmCardComponent extends AbstractComponent {
-  constructor(film) {
+  constructor(film, comments) {
     super();
 
     this._film = film;
+    this._comments = comments;
   }
 
   getTemplate() {
-    return createFilmCartTemplate(this._film);
+    return createFilmCartTemplate(this._film, this._comments.getComments());
   }
 
   setClickHandler(handler) {

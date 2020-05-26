@@ -4,27 +4,32 @@ import MenuComponent from "./components/menu-component.js";
 import FilmsBoardComponent from "./components/films-board-component.js";
 import StatisticCounterComponent from "./components/statistic-counter-component.js";
 import {generateUserProfile} from "./mock/user-profile.js";
-import {generateFilters} from "./mock/filter.js";
 import {generateFilms} from "./mock/film.js";
-import {render, RenderPosition} from "./utils/render.js";
+import {render} from "./utils/render.js";
 import PageController from "./controllers/page.js";
+import FilterController from "./controllers/filter";
+import Movies from "./models/movies";
 
 const siteMainElement = document.querySelector(`.main`);
 const siteHeaderElement = document.querySelector(`.header`);
 const siteFooterStatisticElement = document.querySelector(`.footer__statistics`);
 
 const userProfile = generateUserProfile();
-const filters = generateFilters();
-const films = generateFilms(FILMS_COUNT);
 
-render(siteHeaderElement, new UserProfileComponent(userProfile), RenderPosition.BEFOREEND);
-render(siteMainElement, new MenuComponent(filters), RenderPosition.BEFOREEND);
+const movies = new Movies();
+movies.setFilms(generateFilms(FILMS_COUNT));
 
+render(siteHeaderElement, new UserProfileComponent(userProfile));
+
+const menuComponent = new MenuComponent();
+const filterController = new FilterController(menuComponent.getElement(), movies);
+render(siteMainElement, menuComponent);
+filterController.render();
 
 const boardComponent = new FilmsBoardComponent();
-render(siteMainElement, boardComponent, RenderPosition.BEFOREEND);
+render(siteMainElement, boardComponent);
 
-const pageController = new PageController(boardComponent);
-pageController.render(films);
+const pageController = new PageController(boardComponent, movies);
+pageController.render();
 
-render(siteFooterStatisticElement, new StatisticCounterComponent(), RenderPosition.BEFOREEND);
+render(siteFooterStatisticElement, new StatisticCounterComponent());

@@ -1,14 +1,15 @@
-import CommentsComponent from "./comments-component.js";
 import {formatDescription, formatRunTime} from "./film-card-component.js";
-import AbstractComponent from "./abstract-component.js";
+import SmartAbstractComponent from "./smart-abstract-component";
+import CommentComponent from "./comment-component";
 
-const createFilmDetailsTemplate = (film) => {
-  const {fullImage, name, originalName, rating, director, writers, actors, releaseDate, runtime, country, genres, description, ratingAge, comments} = film;
+const createFilmDetailsTemplate = (film, comments) => {
+  const {fullImage, name, originalName, rating, director, writers, actors, releaseDate, runtime, country, genres, description, ratingAge} = film;
+  const commentsCount = comments.length;
 
   // plugin moment
   const moment = require(`moment`);
 
-  const commentsTemplate = new CommentsComponent(comments).getTemplate();
+  // const commentsTemplate = new CommentsComponent(comments).getTemplate();
   const formattedRunTime = formatRunTime(runtime);
   const genreBlock = genres
     .map((genre) => createGenresBlock(genre))
@@ -96,7 +97,41 @@ const createFilmDetailsTemplate = (film) => {
 
         <div class="form-details__bottom-container">
           <section class="film-details__comments-wrap">
-            ${commentsTemplate}
+            <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentsCount}</span></h3>
+
+            <ul class="film-details__comments-list">
+                   ${commentsList(comments)}
+            </ul>
+
+            <div class="film-details__new-comment">
+              <div for="add-emoji" class="film-details__add-emoji-label"></div>
+
+              <label class="film-details__comment-label">
+                <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
+              </label>
+
+              <div class="film-details__emoji-list">
+                <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile">
+                <label class="film-details__emoji-label" for="emoji-smile">
+                  <img src="./images/emoji/smile.png" width="30" height="30" alt="emoji">
+                </label>
+
+                <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-sleeping" value="sleeping">
+                <label class="film-details__emoji-label" for="emoji-sleeping">
+                  <img src="./images/emoji/sleeping.png" width="30" height="30" alt="emoji">
+                </label>
+
+                <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-puke" value="puke">
+                <label class="film-details__emoji-label" for="emoji-puke">
+                  <img src="./images/emoji/puke.png" width="30" height="30" alt="emoji">
+                </label>
+
+                <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-angry" value="angry">
+                <label class="film-details__emoji-label" for="emoji-angry">
+                  <img src="./images/emoji/angry.png" width="30" height="30" alt="emoji">
+                </label>
+              </div>
+            </div>
           </section>
         </div>
       </form>
@@ -108,20 +143,25 @@ const createGenresBlock = (genre) => {
   return `<span class="film-details__genre">${genre}</span>`;
 };
 
-export default class FilmDetailsComponent extends AbstractComponent {
-  constructor(film) {
+export default class FilmDetailsComponent extends SmartAbstractComponent {
+  constructor(film, comments) {
     super();
 
     this._film = film;
+    this._emotion = null;
+    this._comments = comments;
+    this._deletingButtonId = null;
+    this._setRemoveCommentClickHandler = null;
   }
 
   getTemplate() {
-    return createFilmDetailsTemplate(this._film);
+    return createFilmDetailsTemplate(this._film, this._comments.getComments());
   }
 
   setCloseButtonClickHandler(handler) {
     const filmDetailsCloseBtnElement = this.getElement().querySelector(`.film-details__close-btn`);
     filmDetailsCloseBtnElement.addEventListener(`click`, handler);
+    this._setCloseBtnHandler = handler;
   }
 
   setWatchListButtonClickHandler(handler) {
@@ -141,4 +181,47 @@ export default class FilmDetailsComponent extends AbstractComponent {
       .addEventListener(`click`, handler);
     this._setFavorite = handler;
   }
+
+  setRemoveCommentClickHandler(handler) {
+    Array.from(this.getElement()
+      .querySelectorAll(`.film-details__comment-delete`))
+      .forEach((comment) => {
+        comment.addEventListener(`click`, (evt) => {
+          evt.preventDefault();
+
+          const commentId = evt.target.dataset.id;
+          handler(commentId);
+        });
+      });
+
+    this._setRemoveCommentClickHandler = handler;
+  }
+
+  setDeletingButton(id) {
+    this._deletingButtonId = id;
+
+    // удаляем коммент по id
+    this._comments.setRemoveComment(id);
+
+    this.reRender();
+  }
+
+  reRender() {
+    super.reRender();
+  }
+
+  recoveryListeners() {
+    // пеервешиваем эвенты
+    this.setRemoveCommentClickHandler(this._setRemoveCommentClickHandler);
+    this.setCloseButtonClickHandler(this._setCloseBtnHandler);
+    this.setWatchListButtonClickHandler(this._setWatchListHandler);
+    this.setWatchedButtonClickHandler(this._setWatchedHandler);
+    this.setFavoriteButtonClickHandler(this._setFavorite);
+  }
 }
+
+const commentsList = (comments) => {
+  return comments
+    .map((comment) => new CommentComponent(comment).getTemplate())
+    .join(``);
+};

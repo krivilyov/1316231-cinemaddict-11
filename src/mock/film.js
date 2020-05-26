@@ -1,5 +1,5 @@
 import {PREVIEW_IMAGES, FILM_NAMES, DIRECTORS, WRITERS, ACTORS, COUNTRIES, GENRES, DESCRIPTIONS_CONTENT} from "../constants.js";
-import {generateComments, generateRandomDate} from "./comments";
+import {generateRandomDate} from "./comments";
 import {getRandomNumber, getRandomItem, getRandomItems} from "../utils/common";
 
 const generatePreviewImage = (key) => {
@@ -21,10 +21,11 @@ const generateTime = () => {
   };
 };
 
-const generateFilm = () => {
+const generateFilm = (currentElement, index) => {
   const key = getRandomNumber(0, 6);
 
   return {
+    id: index,
     previewImage: generatePreviewImage(key),
     fullImage: generatePreviewImage(key),
     name: generateName(key),
@@ -39,7 +40,6 @@ const generateFilm = () => {
     genres: getRandomItems(GENRES, getRandomNumber(1, GENRES.length)),
     description: getRandomItems(DESCRIPTIONS_CONTENT, getRandomNumber(1, 5)),
     ratingAge: getRandomNumber(0, 18),
-    comments: generateComments(),
   };
 };
 

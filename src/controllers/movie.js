@@ -1,6 +1,8 @@
 import FilmCardComponent from "../components/film-card-component";
 import {remove, render, replace, RenderPosition} from "../utils/render";
 import FilmDetailsComponent from "../components/film-details-component";
+import {generateComments} from "../mock/comments";
+import Comments from "../models/comments";
 
 export default class MovieController {
   constructor(container, onDataChange, onViewChange) {
@@ -9,26 +11,44 @@ export default class MovieController {
     this._filmDetailsComponent = null;
     this._onDataChange = onDataChange;
     this._onViewChange = onViewChange;
+    this._onFilmClick = this._onFilmClick.bind(this);
+    this._onCommentClick = this._onCommentClick.bind(this);
+    this._comments = new Comments();
   }
 
   render(film) {
+    this._film = film;
     const oldFilmComponent = this._filmComponent;
     const oldFilmDetailsComponent = this._filmDetailsComponent;
     const container = this._container;
     const containerElement = container.querySelector(`.films-list__container`);
-    this._filmComponent = new FilmCardComponent(film);
-    this._createCardDataChangeHandlers(film);
 
-    this._filmDetailsComponent = new FilmDetailsComponent(film);
-    this._createFilmDetailsHandlers(film);
+    this._comments.setComments(generateComments());
 
-    if (!oldFilmComponent && !oldFilmDetailsComponent) {
+    this._filmComponent = new FilmCardComponent(this._film, this._comments);
+    this._createCardDataChangeHandlers(this._film);
+
+    this._filmComponent.setClickHandler(this._onFilmClick);
+
+    if (!oldFilmComponent) {
       render(containerElement, this._filmComponent);
     } else {
-      replace(this._filmComponent, oldFilmComponent);
-      replace(this._filmDetailsComponent, oldFilmDetailsComponent);
-      this._createFilmDetailsHandlers(film);
+      replace(oldFilmComponent.getElement().parentNode, this._filmComponent.getElement(), oldFilmComponent.getElement());
+
+      if (oldFilmDetailsComponent) {
+        this._filmDetailsComponent = new FilmDetailsComponent(this._film, this._comments);
+        replace(oldFilmDetailsComponent.getElement().parentNode, this._filmDetailsComponent.getElement(), oldFilmDetailsComponent.getElement());
+        this._createFilmDetailsHandlers(this._film);
+      }
     }
+  }
+
+  _onFilmClick() {
+    this._onViewChange();
+    const siteFooterElement = document.querySelector(`.footer`);
+    this._filmDetailsComponent = new FilmDetailsComponent(this._film, this._comments);
+    this._createFilmDetailsHandlers(this._film);
+    render(siteFooterElement, this._filmDetailsComponent, RenderPosition.AFTERBEGIN);
   }
 
   _createCardDataChangeHandlers(film) {
@@ -63,11 +83,8 @@ export default class MovieController {
     this._filmDetailsComponent.setFavoriteButtonClickHandler(favoriteButtonClickHandler);
     this._filmDetailsComponent.setCloseButtonClickHandler(() => remove(this._filmDetailsComponent));
 
-    const siteFooterElement = document.querySelector(`.footer`);
-    this._filmComponent.setClickHandler(() => {
-      this._onViewChange();
-      render(siteFooterElement, this._filmDetailsComponent, RenderPosition.AFTERBEGIN);
-    });
+    // удаление комментария
+    this._filmDetailsComponent.setRemoveCommentClickHandler(this._onCommentClick);
 
     // слушаем Esc
     document.addEventListener(`keydown`, (e) => {
@@ -81,7 +98,7 @@ export default class MovieController {
     return (evt) => {
       evt.preventDefault();
 
-      this._onDataChange(this, film, Object.assign({}, film, changedData));
+      this._onDataChange(this, film.id, Object.assign({}, film, changedData));
     };
   }
 
@@ -90,6 +107,12 @@ export default class MovieController {
   }
 
   _closeFilmDetailsPopup() {
-    this._filmDetailsComponent.getElement().remove();
+    if (this._filmDetailsComponent) {
+      this._filmDetailsComponent.getElement().remove();
+    }
+  }
+
+  _onCommentClick(commentId) {
+    this._filmDetailsComponent.setDeletingButton(commentId);
   }
 }
