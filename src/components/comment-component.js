@@ -1,17 +1,18 @@
 import AbstractComponent from "./abstract-component.js";
+import {encode} from "he";
 
 const createCommentsContainer = (comment) => {
-  const {id, date, emoji, authorName, content} = comment;
-
+  const {id, date, emotion, authorName, message: currentMessage} = comment;
+  const message = encode(currentMessage);
   const formattedDate = formatDate(date);
 
   return (
     `<li data-id="${id}" class="film-details__comment">
       <span class="film-details__comment-emoji">
-        <img src="${emoji}" width="55" height="55" alt="emoji-smile">
+        <img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-smile">
       </span>
       <div>
-        <p class="film-details__comment-text">${content}</p>
+        <p class="film-details__comment-text">${message}</p>
         <p class="film-details__comment-info">
           <span class="film-details__comment-author">${authorName}</span>
           <span class="film-details__comment-day">${formattedDate}</span>

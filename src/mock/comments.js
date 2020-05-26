@@ -1,4 +1,4 @@
-import {EMOJI, COMMENTATOR_NAMES, COMMENTS_CONTENT} from "../constants.js";
+import {EMOTIONS, COMMENTATOR_NAMES, COMMENTS_CONTENT} from "../constants.js";
 import {getRandomItem, getRandomNumber} from "../utils/common";
 
 export const generateRandomDate = () => {
@@ -13,9 +13,9 @@ const generateComment = (currentElement, index) => {
   return {
     id: index,
     date: generateRandomDate(),
-    emoji: getRandomItem(EMOJI),
+    emotion: getRandomItem(EMOTIONS),
     authorName: getRandomItem(COMMENTATOR_NAMES),
-    content: getRandomItem(COMMENTS_CONTENT),
+    message: getRandomItem(COMMENTS_CONTENT),
   };
 };
 

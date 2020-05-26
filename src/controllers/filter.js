@@ -1,4 +1,4 @@
-import {render, replace} from "./../utils/render.js";
+import {render} from "./../utils/render.js";
 import {getFilteredFilms, FilterTypes} from "./../utils/filter.js";
 import FilterComponent from "../components/filter-component.js";
 
@@ -17,14 +17,8 @@ export default class FilterController {
   render() {
     const filterData = this._generateFilterData();
 
-    if (!this._filterComponent) {
-      this._filterComponent = new FilterComponent(filterData);
-      render(this._container, this._filterComponent, `afterbegin`);
-    } else {
-      const newComponent = new FilterComponent(filterData);
-      replace(newComponent, this._filterComponent);
-      this._filterComponent = newComponent;
-    }
+    this._filterComponent = new FilterComponent(filterData);
+    render(this._container, this._filterComponent, `afterbegin`);
 
     this._filterComponent.setFilterChangeHandler(this.onFilterChange);
   }
