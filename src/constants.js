@@ -107,3 +107,26 @@ export const DESCRIPTIONS_CONTENT = [
   `Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus.`,
   `In rutrum ac purus sit amet tempus.`,
 ];
+
+export const TimeFilter = {
+  ALLTIME: {
+    name: `All time`,
+    label: `all-time`,
+  },
+  TODAY: {
+    name: `Today`,
+    label: `today`,
+  },
+  WEEK: {
+    name: `Week`,
+    label: `week`,
+  },
+  MONTH: {
+    name: `Month`,
+    label: `month`,
+  },
+  YEAR: {
+    name: `Year`,
+    label: `year`,
+  },
+};

@@ -144,4 +144,21 @@ export default class PageController {
     this._clearRenderedFilms(container);
     this._renderFilms(filmsElement, this._films);
   }
+
+  show() {
+    this._sortMenuComponent.show();
+    this._container.show();
+  }
+
+  hide() {
+    const container = this._container.getElement();
+    // сбрасываем сортировку
+    const sortedFilms = this._getSortedFilms(this._films, SortType.DEFAULT);
+    this._clearRenderedFilms(container);
+    this._renderFilms(this._filmsComponent.getElement(), sortedFilms);
+    this._sortMenuComponent.clearSortMenu();
+
+    this._sortMenuComponent.hide();
+    this._container.hide();
+  }
 }
