@@ -9,6 +9,7 @@ import {render} from "./utils/render.js";
 import PageController from "./controllers/page.js";
 import FilterController from "./controllers/filter";
 import Movies from "./models/movies";
+import StatisticsComponent from "./components/statistics-component";
 
 const siteMainElement = document.querySelector(`.main`);
 const siteHeaderElement = document.querySelector(`.header`);
@@ -20,8 +21,10 @@ const movies = new Movies();
 movies.setFilms(generateFilms(FILMS_COUNT));
 
 render(siteHeaderElement, new UserProfileComponent(userProfile));
+const statisticsComponent = new StatisticsComponent(movies);
 
 const menuComponent = new MenuComponent();
+
 const filterController = new FilterController(menuComponent.getElement(), movies);
 render(siteMainElement, menuComponent);
 filterController.render();
@@ -31,5 +34,20 @@ render(siteMainElement, boardComponent);
 
 const pageController = new PageController(boardComponent, movies);
 pageController.render();
+
+menuComponent.setOnChangeHandler((menuItem) => {
+  switch (menuItem) {
+    case `stats`:
+      statisticsComponent.show();
+      pageController.hide();
+      break;
+    default:
+      statisticsComponent.hide();
+      pageController.show();
+  }
+});
+
+render(siteMainElement, statisticsComponent);
+statisticsComponent.hide();
 
 render(siteFooterStatisticElement, new StatisticCounterComponent());
