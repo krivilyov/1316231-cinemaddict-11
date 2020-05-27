@@ -9,7 +9,7 @@ const createFiltersTemplate = (filterData, activeFilter) => {
     const activeClass = activeFilter === title ? `main-navigation__item--active` : ``;
     const quantity = title !== `All movies` ? `<span class="main-navigation__item-count">${count}</span>` : ``;
     return (
-      `<a href="#${title}" class="main-navigation__item ${activeClass}">${title} ${quantity}</a>`
+      `<a href="#${title}" id="${title}" class="main-navigation__item ${activeClass}">${title} ${quantity}</a>`
     );
   }).join(``);
 
