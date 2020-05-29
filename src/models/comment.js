@@ -1,10 +1,10 @@
 export default class Comment {
   constructor(comment) {
-    this.id = comment.id;
-    this.date = comment.date;
-    this.emotion = comment.emotion;
-    this.authorName = comment.authorName;
-    this.message = comment.message;
+    this.id = comment[`id`];
+    this.date = comment[`date`];
+    this.emotion = comment[`emotion`];
+    this.authorName = comment[`author`];
+    this.message = comment[`comment`];
   }
 
   getComment() {
@@ -25,5 +25,16 @@ export default class Comment {
       "authorName": this.authorName,
       "message": this.message,
     };
+  }
+  static clone(comment) {
+    return new Comment(comment.toRAW());
+  }
+
+  static parseComment(comment) {
+    return new Comment(comment);
+  }
+
+  static parseComments(comments) {
+    return comments.map(Comment.parseComment);
   }
 }

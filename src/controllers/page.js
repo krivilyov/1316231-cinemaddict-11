@@ -5,9 +5,10 @@ import {BATCH_RENDER_STEP} from "../constants";
 import LoadMoreButtonComponent from "../components/load-more-button-component";
 import SortMenuComponent, {SortType} from "../components/sort-menu-component";
 import MovieController from "./movie";
+import moment from "moment";
 
 export default class PageController {
-  constructor(container, movies) {
+  constructor(container, movies, api) {
     this._container = container;
     this._renderedFilms = 0;
     this._films = [];
@@ -22,6 +23,7 @@ export default class PageController {
 
     this._onFilterChange = this._onFilterChange.bind(this);
     this._movies.setFilterChangeHandlers(this._onFilterChange);
+    this._api = api;
   }
 
   render() {
@@ -68,7 +70,7 @@ export default class PageController {
     films
       .slice(from, to)
       .forEach((film) => {
-        const movieController = new MovieController(filmsElement, this._onDataChange, this._onViewChange);
+        const movieController = new MovieController(filmsElement, this._onDataChange, this._onViewChange, this._api);
         movieController.render(film);
 
         this._showedFilmControllers = this._showedFilmControllers.concat(movieController);
@@ -104,7 +106,7 @@ export default class PageController {
         sortedFilms = renderedFilms;
         break;
       case SortType.DATE:
-        sortedFilms = renderedFilms.sort((a, b) => b.releaseDate - a.releaseDate);
+        sortedFilms = renderedFilms.sort((a, b) => moment(b.releaseDate).format(`x`) - moment(a.releaseDate).format(`x`));
         break;
       case SortType.RATING:
         sortedFilms = renderedFilms.sort((a, b) => b.rating - a.rating);
@@ -121,11 +123,18 @@ export default class PageController {
     remove(this._loadMoreButtonComponent);
   }
 
-  _onDataChange(movieController, id, newData) {
-    this._movies.updateFilm(id, newData);
-    this._films = this._movies.getFilms();
+  _onDataChange(movieController, oldFilm, newFilm) {
 
-    movieController.render(this._films[id]);
+    this._api.updateFilm(oldFilm.id, newFilm)
+      .then((newFilmCard) => {
+        this._movies.updateFilm(oldFilm.id, newFilmCard);
+        this._films = this._movies.getFilms();
+
+        movieController.render(this._films[newFilmCard.id]);
+      })
+      .catch((err) => {
+        throw new Error(err);
+      });
   }
 
   _onViewChange() {
