@@ -1,8 +1,11 @@
 import AbstractComponent from "./abstract-component.js";
 import {encode} from "he";
+import moment from "moment";
 
 const createCommentsContainer = (comment) => {
+
   const {id, date, emotion, authorName, message: currentMessage} = comment;
+
   const message = encode(currentMessage);
   const formattedDate = formatDate(date);
 
@@ -25,12 +28,11 @@ const createCommentsContainer = (comment) => {
 
 const formatDate = (date) => {
   // plugin moment
-  const moment = require(`moment`);
   const currentDate = new Date();
   let newDate;
 
   // переводим время в UNIX и разницу при сравнении в кол-во дней
-  const quantityDays = Math.round(((currentDate.getTime() - date.getTime()) / 86400000));
+  const quantityDays = Math.round(((currentDate.getTime() - moment(date).unix()) / 86400000));
 
   if (quantityDays > 7) {
     newDate = moment(date).format(`YYYY/MM/DD HH:mm`);

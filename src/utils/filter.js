@@ -5,9 +5,9 @@ const FilterTypes = {
   FAVORITES: `Favorites`
 };
 
-const addedToWatchlist = (films) => films.filter((film) => Boolean(film.isWatchlist));
-const markAsWatched = (films) => films.filter((film) => Boolean(film.isWatched));
-const markAsFavorite = (films) => films.filter((film) => Boolean(film.isFavorite));
+const addedToWatchlist = (films) => films.filter((film) => Boolean(film.controls.isWatchlist));
+const markAsWatched = (films) => films.filter((film) => Boolean(film.controls.isWatched));
+const markAsFavorite = (films) => films.filter((film) => Boolean(film.controls.isFavorite));
 
 const getFilteredFilms = (activeFilter, films) => {
   let filteredFilms;

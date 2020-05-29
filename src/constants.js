@@ -1,5 +1,7 @@
 export const FILMS_COUNT = 17;
 export const BATCH_RENDER_STEP = 5;
+export const AUTHORIZATION = `Basic PtIMbuRNarIaLEOuSegEtErmeNISkUDERIedI`;
+export const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
 
 export const USER_STATUSES = [
   {name: ``, value: 0},
@@ -129,4 +131,28 @@ export const TimeFilter = {
     name: `Year`,
     label: `year`,
   },
+};
+
+export const Url = {
+  MOVIES: `movies`,
+  COMMENTS: `comments`,
+};
+
+export const Method = {
+  GET: `GET`,
+  POST: `POST`,
+  PUT: `PUT`,
+  DELETE: `DELETE`
+};
+
+export const StatusCode = {
+  SUCCESS: 200,
+  REDIRECTION: 300,
+};
+
+export const ErrorMessage = {
+  CONNECTION: `No internet connection`,
+  CONSTRUCTOR: `Can't instantiate AbstractComponent, only concrete one.`,
+  getNotImplemented: (method) => `Abstract method is not implemented: ${method}`,
+  SYNCHRONIZATION: `Sync data failed`,
 };

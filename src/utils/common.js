@@ -1,3 +1,5 @@
+import {StatusCode} from "../constants";
+
 export const getRandomNumber = (pointStart = 0, pointStop = 0) => {
   return Math.floor((Math.random() * pointStop) + pointStart);
 };
@@ -15,4 +17,12 @@ export const getRandomItems = (items, count) => {
     newItems.push(...itemsToProcess.splice(randomIndex, 1));
   }
   return newItems;
+};
+
+export const checkStatus = (response) => {
+  if (response.status >= StatusCode.SUCCESS && response.status < StatusCode.REDIRECTION) {
+    return response;
+  } else {
+    throw new Error(`${response.status}: ${response.statusText}`);
+  }
 };
