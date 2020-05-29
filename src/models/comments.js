@@ -15,7 +15,7 @@ export default class Comments {
   }
 
   setRemoveComment(id) {
-    const index = this._comments.findIndex((currentComment) => currentComment.id === (id * 1));
+    const index = this._comments.findIndex((currentComment) => currentComment.id === id);
 
     if (index === -1) {
       return false;

@@ -1,9 +1,9 @@
-import {formatDescription, formatRunTime} from "./film-card-component.js";
+import {formatRunTime} from "./film-card-component.js";
 import SmartAbstractComponent from "./smart-abstract-component";
 import CommentComponent from "./comment-component";
-import {EMOTIONS, COMMENTATOR_NAMES} from "../constants";
-import Comment from "../models/comment";
-import {getRandomItem} from "../utils/common";
+import {EMOTIONS} from "../constants";
+import moment from "moment";
+import LocalComment from "../models/local-comment";
 
 const commentsList = (comments) => {
   return comments
@@ -32,21 +32,11 @@ const createEmojiImageMarkup = (emotion) => {
 };
 
 const createFilmDetailsTemplate = (film, comments, options = {}) => {
-  const {fullImage, name, originalName, rating, director, writers, actors, releaseDate, runtime, country, genres, description, ratingAge} = film;
+  const {title, originalTitle, rating, releaseDate, runtime, genres, poster, description, age, director, writers, actors, country} = film;
   const {emotion, message} = options;
-  const commentsCount = comments.length;
-
-  // plugin moment
-  const moment = require(`moment`);
-
-  // const commentsTemplate = new CommentsComponent(comments).getTemplate();
+  const commentsCount = film.commentsIds.length;
   const formattedRunTime = formatRunTime(runtime);
-  const genreBlock = genres
-    .map((genre) => createGenresBlock(genre))
-    .join(``);
-
   const formattedReleaseDate = moment(releaseDate).format(`DD MMMM YYYY`);
-  const formattedDescription = formatDescription(description);
 
   return (
     `<section class="film-details">
@@ -57,16 +47,16 @@ const createFilmDetailsTemplate = (film, comments, options = {}) => {
           </div>
           <div class="film-details__info-wrap">
             <div class="film-details__poster">
-              <img class="film-details__poster-img" src="${fullImage}" alt="${name}">
+              <img class="film-details__poster-img" src="${poster}" alt="${title}">
 
-              <p class="film-details__age">${ratingAge}+</p>
+              <p class="film-details__age">${age}+</p>
             </div>
 
             <div class="film-details__info">
               <div class="film-details__info-head">
                 <div class="film-details__title-wrap">
-                  <h3 class="film-details__title">${name}</h3>
-                  <p class="film-details__title-original">Original: ${originalName}</p>
+                  <h3 class="film-details__title">${title}</h3>
+                  <p class="film-details__title-original">Original: ${originalTitle}</p>
                 </div>
 
                 <div class="film-details__rating">
@@ -81,11 +71,11 @@ const createFilmDetailsTemplate = (film, comments, options = {}) => {
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Writers</td>
-                  <td class="film-details__cell">${writers}</td>
+                  <td class="film-details__cell">${writers.join(`, `)}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Actors</td>
-                  <td class="film-details__cell">${actors}</td>
+                  <td class="film-details__cell">${actors.join(`, `)}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Release Date</td>
@@ -100,27 +90,27 @@ const createFilmDetailsTemplate = (film, comments, options = {}) => {
                   <td class="film-details__cell">${country}</td>
                 </tr>
                 <tr class="film-details__row">
-                  <td class="film-details__term">Genres</td>
+                  <td class="film-details__term">${genres.length > 1 ? `Genres` : `Genre`}</td>
                   <td class="film-details__cell">
-                    ${genreBlock}
+                    ${genres.map((it) => `<span class="film-details__genre">${it}</span>`).join(`\n`)}
                   </td>
                 </tr>
               </table>
 
               <p class="film-details__film-description">
-                ${formattedDescription}
+                ${description}
               </p>
             </div>
           </div>
 
           <section class="film-details__controls">
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${film.isWatchlist ? `checked` : ``}>
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${film.controls.isWatchlist ? `checked` : ``}>
             <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${film.isWatched ? `checked` : ``}>
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${film.controls.isWatched ? `checked` : ``}>
             <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${film.isFavorite ? `checked` : ``}>
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${film.controls.isFavorite ? `checked` : ``}>
             <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
           </section>
         </div>
@@ -151,10 +141,6 @@ const createFilmDetailsTemplate = (film, comments, options = {}) => {
       </form>
     </section>`
   );
-};
-
-const createGenresBlock = (genre) => {
-  return `<span class="film-details__genre">${genre}</span>`;
 };
 
 export default class FilmDetailsComponent extends SmartAbstractComponent {
@@ -244,7 +230,7 @@ export default class FilmDetailsComponent extends SmartAbstractComponent {
 
             const newCommentData = this._createNewComment(this._newCommentMessage, this._emotion);
 
-            const newComment = new Comment(newCommentData);
+            const newComment = new LocalComment(newCommentData);
             handler(newComment);
           }
         }
@@ -276,16 +262,13 @@ export default class FilmDetailsComponent extends SmartAbstractComponent {
 
   _createNewComment(message, emotion) {
     // кол-во элементов лдя присвоения ключа
-    const currentCommentId = this._comments.getComments().length;
+    // const currentCommentId = this._comments.getComments().length;
     // случайный автор
-    const currentRandomAuthor = getRandomItem(COMMENTATOR_NAMES);
-
+    // const currentRandomAuthor = getRandomItem(COMMENTATOR_NAMES);
     return {
-      id: currentCommentId,
       date: new Date(),
       emotion,
-      authorName: currentRandomAuthor,
-      message,
+      comment: message,
     };
   }
 
