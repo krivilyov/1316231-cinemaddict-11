@@ -15,7 +15,6 @@ const createFilterMarkup = (filter, isCkecked) => {
 };
 
 const createStatisticsTemplate = (films, currentFilter) => {
-  console.log(films);
   const duration = films.reduce((filmsDuration, film) => {
     filmsDuration += film.runtime;
     return filmsDuration;
