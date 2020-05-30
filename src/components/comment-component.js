@@ -2,12 +2,13 @@ import AbstractComponent from "./abstract-component.js";
 import {encode} from "he";
 import moment from "moment";
 
-const createCommentsContainer = (comment) => {
+const createCommentsContainer = (comment, isDeletingButton) => {
 
   const {id, date, emotion, authorName, message: currentMessage} = comment;
 
   const message = encode(currentMessage);
   const formattedDate = formatDate(date);
+  const buttonText = isDeletingButton ? `Deleting…` : `Delete`;
 
   return (
     `<li data-id="${id}" class="film-details__comment">
@@ -19,7 +20,7 @@ const createCommentsContainer = (comment) => {
         <p class="film-details__comment-info">
           <span class="film-details__comment-author">${authorName}</span>
           <span class="film-details__comment-day">${formattedDate}</span>
-          <button data-id="${id}" class="film-details__comment-delete">Delete</button>
+          <button data-id="${id}" class="film-details__comment-delete">${buttonText}</button>
         </p>
       </div>
     </li>`

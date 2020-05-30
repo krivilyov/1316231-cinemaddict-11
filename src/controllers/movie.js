@@ -2,7 +2,7 @@ import FilmCardComponent from "../components/film-card-component";
 import {remove, render, replace, RenderPosition} from "../utils/render";
 import FilmDetailsComponent from "../components/film-details-component";
 import Comments from "../models/comments";
-import {ErrorMessage} from "../constants";
+import {ErrorMessage, SHAKE_ANIMATION_TIMEOUT} from "../constants";
 import Movie from "../models/movie.js";
 
 export default class MovieController {
@@ -119,6 +119,7 @@ export default class MovieController {
 
   _onCommentClick(commentId) {
     this._filmDetailsComponent.setDeletingButton(commentId);
+    this._filmDetailsComponent.disableCommentButton(commentId);
 
     this._onCommentChange(commentId, null);
   }
@@ -129,9 +130,21 @@ export default class MovieController {
     if (newComment === null) {
 
       this._api.removeComment(oldCommentId)
-        .then(() => (this._comments.setRemoveComment(oldCommentId)))
+        .then(() => {
+          this._comments.setRemoveComment(oldCommentId);
+          const newFilm = Movie.clone(this._film);
+          this._onDataChange(this, this._film, newFilm);
+        })
         .catch(() => {
+          const commentsElements = this._filmDetailsComponent.getElement().querySelectorAll(`.film-details__comment`);
+          const commentElement = Array.from(commentsElements).find((element) => element.dataset.id === oldCommentId);
 
+          this._filmDetailsComponent.enableCommentButton(oldCommentId);
+          this._filmDetailsComponent.shakeComment(commentElement);
+
+          setTimeout(() => {
+            this._filmDetailsComponent.setDeletingButton(null);
+          }, SHAKE_ANIMATION_TIMEOUT);
         });
 
     } else if (oldCommentId === null) {
@@ -140,11 +153,13 @@ export default class MovieController {
         .then((comment) => {
           this._filmDetailsComponent.enable();
           this._comments.addComment(comment);
+          const newFilm = Movie.clone(this._film);
+          this._onDataChange(this, this._film, newFilm);
         })
         .catch(() => {
           this._filmDetailsComponent.enable();
+          this._filmDetailsComponent.shake();
         });
-
     }
   }
 }

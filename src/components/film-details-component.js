@@ -1,9 +1,10 @@
 import {formatRunTime} from "./film-card-component.js";
 import SmartAbstractComponent from "./smart-abstract-component";
 import CommentComponent from "./comment-component";
-import {EMOTIONS} from "../constants";
+import {EMOTIONS, SHAKE_ANIMATION_TIMEOUT} from "../constants";
 import moment from "moment";
 import LocalComment from "../models/local-comment";
+import {shake} from "../utils/common";
 
 const commentsList = (comments) => {
   return comments
@@ -33,8 +34,8 @@ const createEmojiImageMarkup = (emotion) => {
 
 const createFilmDetailsTemplate = (film, comments, options = {}) => {
   const {title, originalTitle, rating, releaseDate, runtime, genres, poster, description, age, director, writers, actors, country} = film;
-  const {emotion, message} = options;
-  const commentsCount = film.commentsIds.length;
+  const {emotion, message, deletingButtonId} = options;
+  const commentsCount = comments.length;
   const formattedRunTime = formatRunTime(runtime);
   const formattedReleaseDate = moment(releaseDate).format(`DD MMMM YYYY`);
 
@@ -120,7 +121,7 @@ const createFilmDetailsTemplate = (film, comments, options = {}) => {
             <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentsCount}</span></h3>
 
             <ul class="film-details__comments-list">
-                ${commentsList(comments)}
+                ${commentsList(comments, deletingButtonId)}
             </ul>
 
             <div class="film-details__new-comment">
@@ -164,6 +165,7 @@ export default class FilmDetailsComponent extends SmartAbstractComponent {
     return createFilmDetailsTemplate(this._film, this._comments.getComments(), {
       emotion: this._emotion,
       message: this._newCommentMessage,
+      deletingButtonId: this._deletingButtonId,
     });
   }
 
@@ -208,11 +210,6 @@ export default class FilmDetailsComponent extends SmartAbstractComponent {
 
   setDeletingButton(id) {
     this._deletingButtonId = id;
-
-    // удаляем коммент по id
-    this._comments.setRemoveComment(id);
-
-    this.reRender();
   }
 
   setNewCommentSubmitHandler(handler) {
@@ -232,6 +229,9 @@ export default class FilmDetailsComponent extends SmartAbstractComponent {
 
             const newComment = new LocalComment(newCommentData);
             handler(newComment);
+
+          } else {
+            this.shakeCommentInput(this.getElement().querySelector(`.film-details__comment-input`));
           }
         }
       });
@@ -261,10 +261,6 @@ export default class FilmDetailsComponent extends SmartAbstractComponent {
   }
 
   _createNewComment(message, emotion) {
-    // кол-во элементов лдя присвоения ключа
-    // const currentCommentId = this._comments.getComments().length;
-    // случайный автор
-    // const currentRandomAuthor = getRandomItem(COMMENTATOR_NAMES);
     return {
       date: new Date(),
       emotion,
@@ -305,5 +301,35 @@ export default class FilmDetailsComponent extends SmartAbstractComponent {
   _onCommentsChange() {
     this._clearNewComment();
     this.reRender();
+  }
+
+  shake() {
+    shake(this.getElement());
+
+    const formInput = this.getElement().querySelector(`.film-details__comment-input`);
+    formInput.style.boxShadow = `0px 0px 5px 2px red`;
+
+    setTimeout(() => {
+      formInput.style.border = ``;
+    }, SHAKE_ANIMATION_TIMEOUT);
+  }
+
+  shakeCommentInput() {
+    this.shake();
+  }
+
+  shakeComment(comment) {
+    shake(comment);
+  }
+
+  disableCommentButton(id) {
+    const commentsButtons = this.getElement().querySelectorAll(`.film-details__comment-delete`);
+    const commentButton = Array.from(commentsButtons).find((button) => button.dataset.id === id);
+    commentButton.setAttribute(`disabled`, `disabled`);
+  }
+  enableCommentButton(id) {
+    const commentsButtons = this.getElement().querySelectorAll(`.film-details__comment-delete`);
+    const commentButton = Array.from(commentsButtons).find((button) => button.dataset.id === id);
+    commentButton.removeAttribute(`disabled`);
   }
 }
