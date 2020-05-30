@@ -1,9 +1,4 @@
-const FilterTypes = {
-  ALL: `All movies`,
-  WATCHLIST: `Watchlist`,
-  HISTORY: `History`,
-  FAVORITES: `Favorites`
-};
+import {FilterTypes} from "../constants";
 
 const addedToWatchlist = (films) => films.filter((film) => Boolean(film.controls.isWatchlist));
 const markAsWatched = (films) => films.filter((film) => Boolean(film.controls.isWatched));

@@ -1,13 +1,18 @@
-import AbstractComponent from "./abstract-component.js";
+import AbstractSmartComponent from "./smart-abstract-component";
 
-const createStatisticCounterTemplate = () => {
+const createStatisticCounterTemplate = (filmsCount) => {
   return (
-    `<p>130 291 movies inside</p>`
+    `<p>${filmsCount ? `${filmsCount} movies inside` : `0 movies inside`}</p>`
   );
 };
 
-export default class StatisticCounterComponent extends AbstractComponent {
+export default class StatisticCounterComponent extends AbstractSmartComponent {
+  constructor(movies) {
+    super();
+    this._films = movies;
+  }
+
   getTemplate() {
-    return createStatisticCounterTemplate();
+    return createStatisticCounterTemplate(this._films.getFilms().length);
   }
 }

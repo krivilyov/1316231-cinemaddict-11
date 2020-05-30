@@ -1,14 +1,21 @@
-export const FILMS_COUNT = 17;
 export const BATCH_RENDER_STEP = 5;
 export const AUTHORIZATION = `Basic PtIMbuRNarIaLEOuSegEtErmeNISkUDERIedI`;
 export const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
 
-export const USER_STATUSES = [
-  {name: ``, value: 0},
-  {name: `novice`, value: 1},
-  {name: `fan`, value: 11},
-  {name: `movie buff`, value: 21},
-];
+export const Rank = {
+  NOVICE: {
+    name: `Novice`,
+    value: 1,
+  },
+  FAN: {
+    name: `Fan`,
+    value: 11,
+  },
+  MOVIE_BUFF: {
+    name: `Movie Buff`,
+    value: 21,
+  },
+};
 
 export const FILTER_NAMES = [
   {id: `all`, name: `All movies`},
@@ -161,4 +168,11 @@ export const ErrorMessage = {
   CONSTRUCTOR: `Can't instantiate AbstractComponent, only concrete one.`,
   getNotImplemented: (method) => `Abstract method is not implemented: ${method}`,
   SYNCHRONIZATION: `Sync data failed`,
+};
+
+export const FilterTypes = {
+  ALL: `All movies`,
+  WATCHLIST: `Watchlist`,
+  HISTORY: `History`,
+  FAVORITES: `Favorites`
 };

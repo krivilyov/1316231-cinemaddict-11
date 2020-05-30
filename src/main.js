@@ -5,7 +5,6 @@ import UserProfileComponent from "./components/user-profile-component.js";
 import MenuComponent from "./components/menu-component.js";
 import FilmsBoardComponent from "./components/films-board-component.js";
 import StatisticCounterComponent from "./components/statistic-counter-component.js";
-import {generateUserProfile} from "./mock/user-profile.js";
 import {render} from "./utils/render.js";
 import PageController from "./controllers/page.js";
 import FilterController from "./controllers/filter";
@@ -20,18 +19,18 @@ const siteHeaderElement = document.querySelector(`.header`);
 const siteFooterStatisticElement = document.querySelector(`.footer__statistics`);
 const boardComponent = new FilmsBoardComponent();
 
-const userProfile = generateUserProfile();
 const menuComponent = new MenuComponent();
 const filterController = new FilterController(menuComponent.getElement(), movies);
 const pageController = new PageController(boardComponent, movies, apiWithProvider);
 
 const statisticsComponent = new StatisticsComponent(movies);
+const statisticCounterComponent = new StatisticCounterComponent(movies);
 
-render(siteHeaderElement, new UserProfileComponent(userProfile));
+
 render(siteMainElement, menuComponent);
-
 render(siteMainElement, boardComponent);
-render(siteFooterStatisticElement, new StatisticCounterComponent());
+
+
 menuComponent.setOnChangeHandler((menuItem) => {
   switch (menuItem) {
     case `stats`:
@@ -51,6 +50,8 @@ apiWithProvider.getFilms()
     filterController.render();
 
     render(siteMainElement, statisticsComponent);
+    render(siteFooterStatisticElement, statisticCounterComponent);
+    render(siteHeaderElement, new UserProfileComponent(movies));
     statisticsComponent.hide();
   })
   .catch((err) => {

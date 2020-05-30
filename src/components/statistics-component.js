@@ -4,6 +4,7 @@ import {getFilteredFilms} from "../utils/filter";
 import moment from "moment";
 import Chart from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import {getUserRank} from "./user-profile-component";
 
 const createFilterMarkup = (filter, isCkecked) => {
   const {name, label} = filter;
@@ -31,13 +32,14 @@ const createStatisticsTemplate = (films, currentFilter) => {
   }
 
   const topGenre = films.length > 0 ? getTopGenre(films) : ``;
+  const rank = getUserRank(films.length);
 
   return (
     `<section class="statistic">
       <p class="statistic__rank">
         Your rank
         <img class="statistic__img" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
-        <span class="statistic__rank-label">Sci-Fighter</span>
+        <span class="statistic__rank-label">${rank}</span>
       </p>
 
       <form action="https://echo.htmlacademy.ru/" method="get" class="statistic__filters">
