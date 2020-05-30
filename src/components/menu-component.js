@@ -14,12 +14,9 @@ export default class MenuComponent extends AbstractComponent {
     return createMenuTemplate();
   }
 
-  // removesLinkSelection() {
-  //   this.getElement().querySelector(`.main-navigation__item`).classList.remove(`main-navigation__item--active`);
-  // }
-
   setOnChangeHandler(handler) {
     this.getElement().addEventListener(`click`, (evt) => {
+      evt.preventDefault();
       const menuItem = evt.target.id;
 
       handler(menuItem);

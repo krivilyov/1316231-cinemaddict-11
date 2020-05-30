@@ -19,18 +19,19 @@ const siteMainElement = document.querySelector(`.main`);
 const siteHeaderElement = document.querySelector(`.header`);
 const siteFooterStatisticElement = document.querySelector(`.footer__statistics`);
 const boardComponent = new FilmsBoardComponent();
-const statisticsComponent = new StatisticsComponent(movies);
+
 const userProfile = generateUserProfile();
 const menuComponent = new MenuComponent();
 const filterController = new FilterController(menuComponent.getElement(), movies);
 const pageController = new PageController(boardComponent, movies, apiWithProvider);
+
+const statisticsComponent = new StatisticsComponent(movies);
 
 render(siteHeaderElement, new UserProfileComponent(userProfile));
 render(siteMainElement, menuComponent);
 
 render(siteMainElement, boardComponent);
 render(siteFooterStatisticElement, new StatisticCounterComponent());
-
 menuComponent.setOnChangeHandler((menuItem) => {
   switch (menuItem) {
     case `stats`:

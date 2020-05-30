@@ -67,10 +67,16 @@ export const COUNTRIES = [
   `Libya`,
 ];
 
-export const GENRES = [
+export const genres = [
+  `Action`,
+  `Adventure`,
+  `Animation`,
+  `Comedy`,
   `Drama`,
-  `Film-Noir`,
-  `Mystery`,
+  `Family`,
+  `Horror`,
+  `Sci-Fi`,
+  `Thriller`,
 ];
 
 export const EMOTIONS = [
