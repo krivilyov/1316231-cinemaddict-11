@@ -1,6 +1,7 @@
 import AbstractComponent from "./abstract-component.js";
 import {encode} from "he";
 import moment from "moment";
+import {MSEK_IN_DAY, QUANTITY_DAYS_IN_WEEK, TODAY} from "../constants";
 
 const createCommentsContainer = (comment, isDeletingButton) => {
 
@@ -33,11 +34,10 @@ const formatDate = (date) => {
   let newDate;
 
   // переводим время в UNIX и разницу при сравнении в кол-во дней
-  const quantityDays = Math.round(((currentDate.getTime() - moment(date).unix()) / 86400000));
-
-  if (quantityDays > 7) {
+  const quantityDays = Math.round(((currentDate.getTime() - currentDate.getTime()) / MSEK_IN_DAY));
+  if (quantityDays > QUANTITY_DAYS_IN_WEEK) {
     newDate = moment(date).format(`YYYY/MM/DD HH:mm`);
-  } else if (quantityDays > 1) {
+  } else if (quantityDays > TODAY) {
     newDate = `${quantityDays} days ago`;
   } else {
     newDate = `Today`;

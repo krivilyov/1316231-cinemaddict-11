@@ -1,5 +1,5 @@
 import Movie from "../models/movie.js";
-import {Url, Method} from "../constants";
+import {URL, METHOD} from "../constants";
 import {checkStatus} from "../utils/common.js";
 import Comment from "../models/comment";
 import LocalComment from "../models/local-comment";
@@ -11,12 +11,12 @@ export default class API {
   }
 
   getFilms() {
-    return this._load({url: Url.MOVIES})
+    return this._load({url: URL.MOVIES})
       .then((response) => response.json())
       .then(Movie.parseMovies);
   }
 
-  _load({url, method = Method.GET, body = null, headers = new Headers()}) {
+  _load({url, method = METHOD.GET, body = null, headers = new Headers()}) {
     headers.append(`Authorization`, this._authorization);
 
     return fetch(`${this._endPoint}/${url}`, {method, body, headers})
@@ -27,15 +27,15 @@ export default class API {
   }
 
   getComments(id) {
-    return this._load({url: `${Url.COMMENTS}/${id}`})
+    return this._load({url: `${URL.COMMENTS}/${id}`})
       .then((response) => response.json())
       .then(Comment.parseComments);
   }
 
   addComment(id, comment) {
     return this._load({
-      url: `${Url.COMMENTS}/${id}`,
-      method: Method.POST,
+      url: `${URL.COMMENTS}/${id}`,
+      method: METHOD.POST,
       body: JSON.stringify(comment.toRAW()),
       headers: new Headers({"Content-Type": `application/json`})
     })
@@ -46,8 +46,8 @@ export default class API {
 
   updateFilm(id, film) {
     return this._load({
-      url: `${Url.MOVIES}/${id}`,
-      method: Method.PUT,
+      url: `${URL.MOVIES}/${id}`,
+      method: METHOD.PUT,
       body: JSON.stringify(film.toRAW()),
       headers: new Headers({"Content-Type": `application/json`})
     })
@@ -57,8 +57,8 @@ export default class API {
 
   removeComment(id) {
     return this._load({
-      url: `${Url.COMMENTS}/${id}`,
-      method: Method.DELETE,
+      url: `${URL.COMMENTS}/${id}`,
+      method: METHOD.DELETE,
     });
   }
 }

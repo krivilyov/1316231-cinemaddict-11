@@ -1,9 +1,9 @@
-import {getFilteredFilms, FilterTypes} from "./../utils/filter.js";
+import {getFilteredFilms, FILTER_TYPES} from "./../utils/filter.js";
 
 export default class Movies {
   constructor() {
     this._films = [];
-    this._activeFilter = FilterTypes.ALL;
+    this._activeFilter = FILTER_TYPES.ALL;
     this._filterChangeHandlers = [];
     this.filmsChangeHandlers = [];
   }

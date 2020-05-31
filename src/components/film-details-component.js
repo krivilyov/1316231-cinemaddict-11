@@ -1,7 +1,7 @@
 import {formatRunTime} from "./film-card-component.js";
 import SmartAbstractComponent from "./smart-abstract-component";
 import CommentComponent from "./comment-component";
-import {EMOTIONS, SHAKE_ANIMATION_TIMEOUT} from "../constants";
+import {BUTTONS, EMOTIONS, SHAKE_ANIMATION_TIMEOUT} from "../constants";
 import moment from "moment";
 import LocalComment from "../models/local-comment";
 import {shake} from "../utils/common";
@@ -222,7 +222,7 @@ export default class FilmDetailsComponent extends SmartAbstractComponent {
     this.getElement()
       .querySelector(`.film-details__comment-input`)
       .addEventListener(`keydown`, (evt) => {
-        if (evt.keyCode === 13 && (evt.ctrlKey || evt.metaKey)) {
+        if (evt.key === BUTTONS.ENTER && (evt.ctrlKey || evt.metaKey)) {
           if (this._emotion && this._newCommentMessage) {
 
             const newCommentData = this._createNewComment(this._newCommentMessage, this._emotion);

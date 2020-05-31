@@ -1,5 +1,5 @@
 import SmartAbstractComponent from "./smart-abstract-component";
-import {TimeFilter, genres} from "../constants";
+import {TIME_FILTER, GENRES} from "../constants";
 import {getFilteredFilms} from "../utils/filter";
 import moment from "moment";
 import Chart from "chart.js";
@@ -25,9 +25,9 @@ const createStatisticsTemplate = (films, currentFilter) => {
   const durationMinutes = duration % 60;
 
   let timeFiltersMarkup = ``;
-  for (const filter in TimeFilter) {
+  for (const filter in TIME_FILTER) {
     if (filter) {
-      timeFiltersMarkup = timeFiltersMarkup.concat(createFilterMarkup(TimeFilter[filter], currentFilter === TimeFilter[filter].label));
+      timeFiltersMarkup = timeFiltersMarkup.concat(createFilterMarkup(TIME_FILTER[filter], currentFilter === TIME_FILTER[filter].label));
     }
   }
 
@@ -71,13 +71,13 @@ const createStatisticsTemplate = (films, currentFilter) => {
 };
 
 const getCountedGenres = (films) => {
-  const values = genres.map((genre) =>
+  const values = GENRES.map((genre) =>
     films.filter((film) =>
       film.genres.includes(genre))
       .length);
 
   const genresCount = [];
-  genres.forEach((genre, i) => genresCount.push(
+  GENRES.forEach((genre, i) => genresCount.push(
       {
         name: genre,
         count: values[i],
@@ -94,7 +94,7 @@ const BAR_HEIGHT = 50;
 
 const renderChart = (films, statisticCtx) => {
   // Обязательно рассчитайте высоту canvas, она зависит от количества элементов диаграммы
-  statisticCtx.height = BAR_HEIGHT * genres.length;
+  statisticCtx.height = BAR_HEIGHT * GENRES.length;
 
   return new Chart(statisticCtx, {
     plugins: [ChartDataLabels],
@@ -157,7 +157,7 @@ const renderChart = (films, statisticCtx) => {
 const getWatchedFilmsByPeriod = (films, period) => {
   const watchedFilms = getFilteredFilms(`History`, films);
 
-  if (period === TimeFilter.ALLTIME.label) {
+  if (period === TIME_FILTER.ALLTIME.label) {
     return watchedFilms;
   }
 
@@ -173,7 +173,7 @@ export default class StatisticsComponent extends SmartAbstractComponent {
 
     this._films = movies;
     this._renderCharts();
-    this._currentTimeFilter = TimeFilter.ALLTIME.label;
+    this._currentTimeFilter = TIME_FILTER.ALLTIME.label;
 
     this._setTimeFilterHandlers();
   }

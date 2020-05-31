@@ -1,4 +1,4 @@
-import {StatusCode, SHAKE_ANIMATION_TIMEOUT} from "../constants";
+import {STATUS_CODE, SHAKE_ANIMATION_TIMEOUT} from "../constants";
 
 export const getRandomNumber = (pointStart = 0, pointStop = 0) => {
   return Math.floor((Math.random() * pointStop) + pointStart);
@@ -9,11 +9,11 @@ export const getRandomItem = (items) => {
 };
 
 export const checkStatus = (response) => {
-  if (response.status >= StatusCode.SUCCESS && response.status < StatusCode.REDIRECTION) {
+  if (response.status >= STATUS_CODE.SUCCESS && response.status < STATUS_CODE.REDIRECTION) {
     return response;
-  } else {
-    throw new Error(`${response.status}: ${response.statusText}`);
   }
+
+  throw new Error(`${response.status}: ${response.statusText}`);
 };
 
 export const shake = (element) => {

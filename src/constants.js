@@ -3,7 +3,7 @@ export const AUTHORIZATION = `Basic PtIMbuRNarIaLEOuSegEtErmeNISkUDERIedI`;
 export const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
 export const SHAKE_ANIMATION_TIMEOUT = 1000;
 
-export const Rank = {
+export const RANK = {
   NOVICE: {
     name: `Novice`,
     value: 1,
@@ -18,7 +18,7 @@ export const Rank = {
   },
 };
 
-export const genres = [
+export const GENRES = [
   `Action`,
   `Adventure`,
   `Animation`,
@@ -37,7 +37,7 @@ export const EMOTIONS = [
   `angry`,
 ];
 
-export const TimeFilter = {
+export const TIME_FILTER = {
   ALLTIME: {
     name: `All time`,
     label: `all-time`,
@@ -60,33 +60,48 @@ export const TimeFilter = {
   },
 };
 
-export const Url = {
+export const URL = {
   MOVIES: `movies`,
   COMMENTS: `comments`,
 };
 
-export const Method = {
+export const METHOD = {
   GET: `GET`,
   POST: `POST`,
   PUT: `PUT`,
   DELETE: `DELETE`
 };
 
-export const StatusCode = {
+export const STATUS_CODE = {
   SUCCESS: 200,
   REDIRECTION: 300,
 };
 
-export const ErrorMessage = {
+export const ERROR_MESSAGE = {
   CONNECTION: `No internet connection`,
   CONSTRUCTOR: `Can't instantiate AbstractComponent, only concrete one.`,
-  getNotImplemented: (method) => `Abstract method is not implemented: ${method}`,
   SYNCHRONIZATION: `Sync data failed`,
 };
 
-export const FilterTypes = {
+export const FILTER_TYPES = {
   ALL: `All movies`,
   WATCHLIST: `Watchlist`,
   HISTORY: `History`,
   FAVORITES: `Favorites`
 };
+
+export const BUTTONS = {
+  ESCAPE: `Escape`,
+  ENTER: `Enter`,
+  DELETE: `Delete`,
+  DELETING: `Deleting`,
+};
+
+export const MENU_ITEMS = {
+  FILTERS: `control__filters`,
+  STATISTICS: `stats`,
+};
+
+export const MSEK_IN_DAY = 86400000;
+export const QUANTITY_DAYS_IN_WEEK = 7;
+export const TODAY = 1;

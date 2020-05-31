@@ -2,7 +2,7 @@ import FilmCardComponent from "../components/film-card-component";
 import {remove, render, replace, RenderPosition} from "../utils/render";
 import FilmDetailsComponent from "../components/film-details-component";
 import Comments from "../models/comments";
-import {ErrorMessage, SHAKE_ANIMATION_TIMEOUT} from "../constants";
+import {ERROR_MESSAGE, SHAKE_ANIMATION_TIMEOUT, BUTTONS} from "../constants";
 import Movie from "../models/movie.js";
 
 export default class MovieController {
@@ -56,7 +56,7 @@ export default class MovieController {
       render(siteFooterElement, this._filmDetailsComponent, RenderPosition.AFTERBEGIN);
     })
       .catch(() => {
-        return Promise.reject(new Error(ErrorMessage.CONNECTION));
+        return Promise.reject(new Error(ERROR_MESSAGE.CONNECTION));
       });
   }
 
@@ -89,8 +89,8 @@ export default class MovieController {
     });
 
     // слушаем Esc
-    document.addEventListener(`keydown`, (e) => {
-      if (e.which === 27) {
+    document.addEventListener(`keydown`, (evt) => {
+      if (evt.key === BUTTONS.ESCAPE) {
         remove(this._filmDetailsComponent);
       }
     });

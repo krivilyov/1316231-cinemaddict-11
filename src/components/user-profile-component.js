@@ -1,13 +1,13 @@
 import AbstractSmartComponent from "./smart-abstract-component";
 import {getFilteredFilms} from "../utils/filter";
-import {FilterTypes, Rank} from "../constants";
+import {FILTER_TYPES, RANK} from "../constants";
 
 export const getUserRank = (count) => {
   let rank = ``;
 
-  Object.keys(Rank).forEach((key) => {
-    if (count > Rank[key].value) {
-      rank = Rank[key].name;
+  Object.keys(RANK).forEach((key) => {
+    if (count > RANK[key].value) {
+      rank = RANK[key].name;
     }
   });
 
@@ -16,7 +16,7 @@ export const getUserRank = (count) => {
 
 const createUserProfileTemplate = (films) => {
 
-  const watchedFilmsCount = getFilteredFilms(FilterTypes.HISTORY, films).length;
+  const watchedFilmsCount = getFilteredFilms(FILTER_TYPES.HISTORY, films).length;
   const rank = getUserRank(watchedFilmsCount);
 
   return (

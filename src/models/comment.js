@@ -26,9 +26,6 @@ export default class Comment {
       "message": this.message,
     };
   }
-  static clone(comment) {
-    return new Comment(comment.toRAW());
-  }
 
   static parseComment(comment) {
     return new Comment(comment);

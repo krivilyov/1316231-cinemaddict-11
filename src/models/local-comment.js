@@ -22,8 +22,4 @@ export default class LocalComment {
       comments: new Comment(comment.comments[comment.comments.length - 1]),
     };
   }
-
-  static parseComments(comment) {
-    return comment.map(LocalComment.parseComment);
-  }
 }

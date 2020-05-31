@@ -21,7 +21,6 @@ export default class SortMenuComponent extends AbstractComponent {
     super();
 
     this._sortType = SortType.DEFAULT;
-    this._callback = null;
   }
 
   getTemplate() {

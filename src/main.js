@@ -1,6 +1,6 @@
 import API from "./api/index.js";
 import Provider from "./api/provider.js";
-import {AUTHORIZATION, END_POINT} from "./constants";
+import {AUTHORIZATION, END_POINT, MENU_ITEMS} from "./constants";
 import UserProfileComponent from "./components/user-profile-component.js";
 import MenuComponent from "./components/menu-component.js";
 import FilmsBoardComponent from "./components/films-board-component.js";
@@ -33,7 +33,7 @@ render(siteMainElement, boardComponent);
 
 menuComponent.setOnChangeHandler((menuItem) => {
   switch (menuItem) {
-    case `stats`:
+    case MENU_ITEMS.STATISTICS:
       statisticsComponent.show();
       pageController.hide();
       break;
